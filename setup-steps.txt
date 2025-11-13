@@ -1,0 +1,14 @@
+steps i took to setup:
+
+- created frontend and backend folders
+- use 'npm init -y' to create package json in the root dir.
+- ran 'npm install express mongoose dotenv' to install those packages in root dir.
+- created backend/server.js
+- created .gitignore
+
+- had to first create repo on github then use these
+  git remote add origin git@github.com:danieladeboladada/resume-generator.git 
+  git push -u origin master 
+
+- ff
+
