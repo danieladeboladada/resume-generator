@@ -14,9 +14,6 @@ dist-ssr
 
 .env
 
-# ignore notes
-setup-steps.txt
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
