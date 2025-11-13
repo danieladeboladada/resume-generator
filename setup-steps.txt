@@ -10,5 +10,8 @@ steps i took to setup:
   git remote add origin git@github.com:danieladeboladada/resume-generator.git 
   git push -u origin master 
 
-- ff
+- setup server js with express listening on port 3000
+- added "type": "module" to package json to enable es6 imports
+- added dev script to package json: "dev": "nodemon backend/server.js"
+- installed nodemon as a dev dependency: npm i nodemon -D
 
