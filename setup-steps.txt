@@ -21,3 +21,7 @@ steps i took to setup:
 
 - created backend/config/ and db.js to setup mongoose connection to mongodb using the MONGO_URI from .env
 - use connectDB() function in server.js to connect to db when server starts
+
+- made credentials model in backend/models/credentials.model.js to allow us add to credentials collection in DB
+- made post route to create login credentials.
+- setting up postman to test the post for creating credentials.
