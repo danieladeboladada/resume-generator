@@ -15,3 +15,9 @@ steps i took to setup:
 - added dev script to package json: "dev": "nodemon backend/server.js"
 - installed nodemon as a dev dependency: npm i nodemon -D
 
+- went to mongodb website, create a project, then created a cluster, it created a db user, 
+- connect to cluster > connect using drivers > get connection string and put in .env file as MONGO_URI
+- on mongodb website, set network access to allow access from anywhere (which adds 0.0.0.0/0 to the IP Access list)
+
+- created backend/config/ and db.js to setup mongoose connection to mongodb using the MONGO_URI from .env
+- use connectDB() function in server.js to connect to db when server starts
