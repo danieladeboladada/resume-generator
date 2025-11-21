@@ -25,3 +25,5 @@ steps i took to setup:
 - made credentials model in backend/models/credentials.model.js to allow us add to credentials collection in DB
 - made post route to create login credentials.
 - setting up postman to test the post for creating credentials.
+- more api stuff. e.g. /login 
+- setup router and controller to organize how routes will call endpoints.
