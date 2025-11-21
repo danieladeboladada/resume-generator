@@ -32,3 +32,6 @@ frontend
 - set up this using vite by running: `npm create vite@latest .` > select 'react' > 'javascript'
 - above also installs the packages using npm.
 - followed the steps for 'using chakra in vite' on https://chakra-ui.com/docs/get-started/frameworks/vite to get set up.
+- removed css we weren't using and refs to it.
+- installed react router dom using `npm i react-router-dom` and then wrapped appliation using BrowserRouter
+- created pages and app-components folder. coding starts here.
