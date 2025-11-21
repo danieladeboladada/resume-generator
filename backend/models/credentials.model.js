@@ -6,7 +6,7 @@ const credSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    encr_password: {
+    pass_word: {
         type: String,
         required: true
     }
