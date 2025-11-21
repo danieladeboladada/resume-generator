@@ -27,3 +27,8 @@ steps i took to setup:
 - setting up postman to test the post for creating credentials.
 - more api stuff. e.g. /login 
 - setup router and controller to organize how routes will call endpoints.
+
+frontend
+- set up this using vite by running: `npm create vite@latest .` > select 'react' > 'javascript'
+- above also installs the packages using npm.
+- followed the steps for 'using chakra in vite' on https://chakra-ui.com/docs/get-started/frameworks/vite to get set up.
