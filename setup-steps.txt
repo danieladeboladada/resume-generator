@@ -35,3 +35,5 @@ frontend
 - removed css we weren't using and refs to it.
 - installed react router dom using `npm i react-router-dom` and then wrapped appliation using BrowserRouter
 - created pages and app-components folder. coding starts here.
+
+- installed zustand for state management

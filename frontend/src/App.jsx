@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import CreateAccountPage from "./pages/CreateAccountPage";
 import Navbar from "./app-components/Navbar";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
 
@@ -15,6 +16,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/createacct" element={<CreateAccountPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+
       </Routes>
     </Box>
   );
