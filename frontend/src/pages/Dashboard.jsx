@@ -1,8 +1,13 @@
+import Navbar from '@/app-components/Navbar'
+import { Container } from '@chakra-ui/react'
 import React from 'react'
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <Container>
+        <Navbar />
+        <div>Dashboard</div>
+    </Container>
   )
 }
 

@@ -1,8 +1,12 @@
+import { useUserStore } from '@/store/userStore';
 import { Box, Button, Center, Container, Heading, Input, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [login, setLogin] = useState({user_name: '', pass_word: ''});
+  const navigate = useNavigate();
+  const { setLoggedInUser, getLoggedInUser } = useUserStore();
 
   const authLogin = async () => {
     if(!login.user_name || !login.pass_word){
@@ -17,7 +21,14 @@ const LoginPage = () => {
         body: JSON.stringify(login)
       })
       const data = await res.json()
-      console.log("data: "+JSON.stringify(data))
+      if(data.success){
+        setLoggedInUser(login);
+        const user = getLoggedInUser();
+        console.log("Logged in user:", user);
+        navigate('/dashboard');
+      } else {
+        console.log("Login failed:", data.message)
+      }
     }
     catch (error) {
       console.log("Error during login fetch:", error.message)
