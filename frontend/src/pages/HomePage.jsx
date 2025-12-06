@@ -11,7 +11,9 @@ const HomePage = () => {
               <Link to={"/login"}>
                 <Button>Log In</Button>
               </Link>
-              <Button>Sign Up</Button>
+              <Link to={"/createacct"}>
+                <Button>Sign Up</Button>
+              </Link>
             </HStack>
         </VStack>
     </Container>

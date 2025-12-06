@@ -3,8 +3,8 @@ import { createLogin, verifyLogin } from "../controllers/login.controller.js";
 
 const router = express.Router();
 
-router.post("/login", createLogin);
+router.post("/createlogin", createLogin);
 
-router.get("/login", verifyLogin);
+router.post("/verifylogin", verifyLogin);
 
 export default router;

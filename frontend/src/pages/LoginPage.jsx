@@ -8,11 +8,20 @@ const LoginPage = () => {
     if(!login.user_name || !login.pass_word){
       console.log({success: false, message: "Please fill in all fields"})
     }
-    const res = await fetch("/api/login", {
-      body: JSON.stringify(login)
-    })
-    const data = await res.json()
-    console.log("data: "+data)
+    try {
+      const res = await fetch("/api/verifylogin", {
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify(login)
+      })
+      const data = await res.json()
+      console.log("data: "+JSON.stringify(data))
+    }
+    catch (error) {
+      console.log("Error during login fetch:", error.message)
+    }
   }
 
   return (

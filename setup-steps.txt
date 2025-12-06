@@ -37,3 +37,4 @@ frontend
 - created pages and app-components folder. coding starts here.
 
 - installed zustand for state management
+- added to vite config to add proxy so that '/api' targets 'http://localhost:3000'
