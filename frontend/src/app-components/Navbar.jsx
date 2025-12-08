@@ -1,8 +1,17 @@
-import { Container, Flex, Text } from '@chakra-ui/react'
+import { Button, Container, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useUserStore } from '@/store/userStore';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const { setLoggedInUser } = useUserStore();
+
+  const logOutUser = () => {
+    setLoggedInUser(null);
+    navigate('/');
+  }
+  
   return (
     <Container >
       <Flex 
@@ -17,11 +26,7 @@ const Navbar = () => {
           </Text>
         </Link>
 
-        <Link to={"/"}>
-          <Text textAlign={"center"}>
-            Logout
-          </Text>
-        </Link>
+        <Button onClick={logOutUser}>Logout</Button>
       </Flex>
     </Container>
   )
