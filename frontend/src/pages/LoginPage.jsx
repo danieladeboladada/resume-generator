@@ -1,17 +1,14 @@
 import { useUserStore } from '@/store/userStore';
-import { Box, Button, Center, Container, Heading, Input, VStack } from '@chakra-ui/react'
+import { Box, Button, Center, Container, Heading, HStack, Input, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [login, setLogin] = useState({user_name: '', pass_word: ''});
   const navigate = useNavigate();
-  const { setLoggedInUser, getLoggedInUser } = useUserStore();
+  const { setLoggedInUser } = useUserStore();
 
   const authLogin = async () => {
-    if(!login.user_name || !login.pass_word){
-      console.log({success: false, message: "Please fill in all fields"})
-    }
     try {
       const res = await fetch("/api/verifylogin", {
         method:"POST",
@@ -23,8 +20,6 @@ const LoginPage = () => {
       const data = await res.json()
       if(data.success){
         setLoggedInUser(login);
-        const user = getLoggedInUser();
-        console.log("Logged in user:", user);
         navigate('/dashboard');
       } else {
         console.log("Login failed:", data.message)
@@ -33,6 +28,10 @@ const LoginPage = () => {
     catch (error) {
       console.log("Error during login fetch:", error.message)
     }
+  }
+
+  const gotoSignUp = () => {
+    navigate('/createacct');
   }
 
   return (
@@ -54,9 +53,11 @@ const LoginPage = () => {
                   setLogin({ ...login, pass_word: e.target.value })
                 }
               />
-              <Center>
+
+              <HStack>
                 <Button size={"lg"} onClick={authLogin}>Log Me In</Button>
-              </Center>
+                <Button size={"lg"} onClick={gotoSignUp}>Go to Sign Up</Button>
+              </HStack>
               
             </Box>
             

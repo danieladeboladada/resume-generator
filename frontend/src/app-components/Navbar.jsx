@@ -11,7 +11,7 @@ const Navbar = () => {
     setLoggedInUser(null);
     navigate('/');
   }
-  
+
   return (
     <Container >
       <Flex 
@@ -21,8 +21,20 @@ const Navbar = () => {
         flexDir={{base: "column", sm: "row"}}
       >
         <Link to={"/dashboard"}>
-          <Text textAlign={"center"}>
+          <Text textAlign={"center"} fontWeight={"bold"} >
             Dashboard
+          </Text>
+        </Link>
+
+        <Link to={"/viewresumes"}>
+          <Text textAlign={"center"} fontWeight={"bold"} >
+            View Resumes
+          </Text>
+        </Link>
+
+        <Link to={"/buildresume"}>
+          <Text textAlign={"center"} fontWeight={"bold"} >
+            Build a Resume
           </Text>
         </Link>
 

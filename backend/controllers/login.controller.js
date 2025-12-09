@@ -1,5 +1,4 @@
 import Credential from '../models/credentials.model.js';
-import mongoose from 'mongoose';
 
 //to add new login credentials
 export const createLogin = async (req, res) => {
