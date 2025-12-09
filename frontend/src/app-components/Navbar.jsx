@@ -21,19 +21,31 @@ const Navbar = () => {
         flexDir={{base: "column", sm: "row"}}
       >
         <Link to={"/dashboard"}>
-          <Text textAlign={"center"} fontWeight={"bold"} >
+          <Text
+            textAlign={"center"}
+            fontWeight={"bold"}
+            _hover={{ bg: "pink", color: "black" }}
+          >
             Dashboard
           </Text>
         </Link>
 
         <Link to={"/viewresumes"}>
-          <Text textAlign={"center"} fontWeight={"bold"} >
+          <Text
+            textAlign={"center"} 
+            fontWeight={"bold"} 
+            _hover={{ bg: "pink", color: "black" }}
+          >
             View Resumes
           </Text>
         </Link>
 
         <Link to={"/buildresume"}>
-          <Text textAlign={"center"} fontWeight={"bold"} >
+          <Text
+            textAlign={"center"} 
+            fontWeight={"bold"} 
+            _hover={{ bg: "pink", color: "black" }}
+          >
             Build a Resume
           </Text>
         </Link>

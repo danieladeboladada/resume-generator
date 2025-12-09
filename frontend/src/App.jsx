@@ -4,6 +4,8 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import CreateAccountPage from "./pages/CreateAccountPage";
 import Dashboard from "./pages/Dashboard";
+import ViewResumes from "./pages/ViewResumes";
+import BuildResume from "./pages/BuildResume";
 
 function App() {
 
@@ -14,6 +16,9 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/createacct" element={<CreateAccountPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/viewresumes" element={<ViewResumes />} />
+        <Route path="/buildresume" element={<BuildResume />} />
+
       </Routes>
     </Box>
   );
