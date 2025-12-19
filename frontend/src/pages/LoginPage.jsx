@@ -35,8 +35,8 @@ const LoginPage = () => {
   }
 
   return (
-    <Container>
-        <VStack spacing={4}>
+    <Container minH="80vh" display="flex" alignItems="center" justifyContent="center">
+        <VStack spacing={4} textAlign="center">
           <Heading size={"6xl"}>Log into Resume Generator</Heading>
             <Box maxW="sm">
               <Input

@@ -35,8 +35,8 @@ const CreateAccountPage = () => {
   }
   
   return (
-     <Container>
-        <VStack spacing={4}>
+     <Container minH="80vh" display="flex" alignItems="center" justifyContent="center">
+        <VStack spacing={4} textAlign="center">
           <Heading size={"6xl"}>Create a Resume Generator Account</Heading>
           <Box maxW="sm">
             <Input
@@ -53,7 +53,7 @@ const CreateAccountPage = () => {
                 setLogin({ ...login, pass_word: e.target.value })
               }
             />
-            
+
             <HStack>
               <Button size={"lg"} onClick={createLogin}>Sign Up and Log Me In</Button>
               <Button size={"lg"} onClick={backtoLogin}>Back to Log In</Button>
