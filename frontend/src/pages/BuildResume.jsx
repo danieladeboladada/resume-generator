@@ -60,7 +60,7 @@ const BuildResume = () => {
   };
 
   return (
-    <Container maxW="container.md" py={8}>
+    <Container>
       <Navbar />
       <VStack spacing={6} align="stretch">
         <Heading size={"6xl"} textAlign="center">Enter Your Information</Heading>
@@ -107,7 +107,7 @@ const BuildResume = () => {
             value={summary.value}
             onChange={(e) => setSummary((prev) => ({ ...prev, value: e.target.value }))}
             placeholder="A short professional summary..."
-            isDisabled={!summary.flag}
+            variant={!summary.flag ? "subtle" : "outline"}
             rows={4}
           />
         </Box>
