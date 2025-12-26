@@ -27,18 +27,47 @@ const BuildResume = () => {
   const [skills, setSkills] = useState({ flag: false, values: [] });
 
   // local temporary inputs for adding list items
-  const [newExpPoint, setNewExpPoint] = useState("");
+  const [newExpElement, setNewExpElement] = useState({ heading: "", from_month_year: "", to_month_year: "" });
+  const [currentBulletInput, setCurrentBulletInput] = useState("");
   const [newEduEntry, setNewEduEntry] = useState("");
   const [newSkill, setNewSkill] = useState("");
 
   // handlers for list items
-  const addExperiencePoint = () => {
-    if (!newExpPoint.trim()) return;
-    setExperience((prev) => ({ ...prev, values: [...prev.values, newExpPoint.trim()], flag: true }));
-    setNewExpPoint("");
+  const addExperienceElement = () => {
+    if (!newExpElement.heading.trim()) return;
+    const newExpEntry = {
+      heading: newExpElement.heading.trim(),
+      from_month_year: newExpElement.from_month_year.trim(),
+      to_month_year: newExpElement.to_month_year.trim(),
+      bullet_points: []
+    };
+    setExperience((prev) => ({ ...prev, values: [...prev.values, newExpEntry], flag: true }));
+    setNewExpElement({ heading: "", from_month_year: "", to_month_year: "" });
   };
-  const removeExperiencePoint = (index) => {
+
+  const addExperienceBullet = (expIndex) => {
+    if (!currentBulletInput.trim()) return;
+    setExperience((prev) => ({
+      ...prev,
+      values: prev.values.map((exp, i) =>
+        i === expIndex
+          ? { ...exp, bullet_points: [...exp.bullet_points, currentBulletInput.trim()] }
+          : exp
+      )
+    }));
+    setCurrentBulletInput("");
+  };
+
+  const removeExperienceElement = (index) => {
     setExperience((prev) => ({ ...prev, values: prev.values.filter((_, i) => i !== index) }));
+  };
+
+  const removeExperienceBullet = (expIndex, bulletIndex) => {
+    setExperience((prev) => {
+      const updatedValues = [...prev.values];
+      updatedValues[expIndex].bullet_points = updatedValues[expIndex].bullet_points.filter((_, i) => i !== bulletIndex);
+      return { ...prev, values: updatedValues };
+    });
   };
 
   const addEducationEntry = () => {
@@ -62,6 +91,7 @@ const BuildResume = () => {
   return (
     <Container>
       <Navbar />
+      <Box maxWidth="50%" mx="auto">
       <VStack spacing={6} align="stretch">
         <Heading size={"6xl"} textAlign="center">Enter Your Information</Heading>
 
@@ -129,26 +159,83 @@ const BuildResume = () => {
 
           {experience.flag && (
             <>
-              <HStack>
-                <Input
-                  placeholder="Add experience bullet"
-                  value={newExpPoint}
-                  onChange={(e) => setNewExpPoint(e.target.value)}
-                />
-                <Button onClick={addExperiencePoint}>Add</Button>
-              </HStack>
+              <VStack spacing={4} align="stretch" mb={4}>
+                <Field.Root>
+                  <Field.Label>Job Title / Heading</Field.Label>
+                  <Input
+                    placeholder="e.g., Senior Software Engineer"
+                    value={newExpElement.heading}
+                    onChange={(e) => setNewExpElement((prev) => ({ ...prev, heading: e.target.value }))}
+                  />
+                </Field.Root>
+                <HStack spacing={4}>
+                  <Field.Root flex={1}>
+                    <Field.Label>From (Month/Year)</Field.Label>
+                    <Input
+                      placeholder="Jan 2020"
+                      value={newExpElement.from_month_year}
+                      onChange={(e) => setNewExpElement((prev) => ({ ...prev, from_month_year: e.target.value }))}
+                    />
+                  </Field.Root>
+                  <Field.Root flex={1}>
+                    <Field.Label>To (Month/Year)</Field.Label>
+                    <Input
+                      placeholder="Dec 2023"
+                      value={newExpElement.to_month_year}
+                      onChange={(e) => setNewExpElement((prev) => ({ ...prev, to_month_year: e.target.value }))}
+                    />
+                  </Field.Root>
+                </HStack>
+                <Button onClick={addExperienceElement} colorScheme="blue">Add Experience</Button>
+              </VStack>
 
               <List.Root mt={3}>
-                {experience.values.map((pt, i) => (
-                  <List.Item key={i}>
-                    <HStack justify="space-between">
-                      <Box>{pt}</Box>
-                      <CloseButton
-                        size="sm"
-                        aria-label="Remove experience"
-                        onClick={() => removeExperiencePoint(i)}
-                      />
-                    </HStack>
+                {experience.values.map((exp, expIndex) => (
+                  <List.Item key={expIndex} mb={6} pb={4} borderBottomWidth="1px" borderColor="gray.200">
+                    <VStack align="stretch" spacing={3}>
+                      <HStack justify="space-between">
+                        <Box>
+                          <Box fontWeight="bold">{exp.heading}</Box>
+                          <Box fontSize="sm" color="gray.600">
+                            {exp.from_month_year} {exp.to_month_year && `- ${exp.to_month_year}`}
+                          </Box>
+                        </Box>
+                        <CloseButton
+                          size="sm"
+                          aria-label="Remove experience"
+                          onClick={() => removeExperienceElement(expIndex)}
+                        />
+                      </HStack>
+
+                      <VStack align="stretch" spacing={2} pl={4}>
+                        <Box fontSize="sm" fontWeight="medium">Bullet Points:</Box>
+                        {exp.bullet_points.length > 0 && (
+                          <List.Root ps="4">
+                            {exp.bullet_points.map((bullet, bulletIndex) => (
+                              <List.Item key={bulletIndex}>
+                                <HStack justify="space-between">
+                                  <Box>{bullet}</Box>
+                                  <CloseButton
+                                    size="xs"
+                                    aria-label="Remove bullet"
+                                    onClick={() => removeExperienceBullet(expIndex, bulletIndex)}
+                                  />
+                                </HStack>
+                              </List.Item>
+                            ))}
+                          </List.Root>
+                        )}
+                        <HStack>
+                          <Input
+                            placeholder="Add bullet point"
+                            size="sm"
+                            value={currentBulletInput}
+                            onChange={(e) => setCurrentBulletInput(e.target.value)}
+                          />
+                          <Button size="sm" onClick={() => addExperienceBullet(expIndex)}>Add</Button>
+                        </HStack>
+                      </VStack>
+                    </VStack>
                   </List.Item>
                 ))}
               </List.Root>
@@ -265,6 +352,7 @@ const BuildResume = () => {
           </Button>
         </HStack>
       </VStack>
+    </Box>
     </Container>
   )
 }
