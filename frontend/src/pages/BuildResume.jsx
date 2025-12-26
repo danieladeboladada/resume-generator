@@ -15,6 +15,128 @@ import {
   Field
 } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import { Document, Page, Text, View, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer'
+
+// PDF Document Component
+const ResumePDF = ({ resumeData }) => (
+    <Document>
+        <Page size="A4" style={styles.page}>
+        <View style={styles.section}>
+            <Text style={styles.title}>{resumeData.fullName}</Text>
+            <View style={styles.contactInfo}>
+            {resumeData.email && <Text style={styles.contactText}>{resumeData.email}</Text>}
+            {resumeData.phoneNo && <Text style={styles.contactText}>{resumeData.phoneNo}</Text>}
+            {resumeData.linkedinUrl && <Text style={styles.contactText}>{resumeData.linkedinUrl}</Text>}
+            </View>
+        </View>
+
+        {resumeData.summary.flag && resumeData.summary.value && (
+            <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Summary</Text>
+            <Text style={styles.text}>{resumeData.summary.value}</Text>
+            </View>
+        )}
+
+        {resumeData.experience.flag && resumeData.experience.values.length > 0 && (
+            <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Experience</Text>
+            {resumeData.experience.values.map((exp, idx) => (
+                <View key={idx} style={styles.entryContainer}>
+                <View style={styles.entryHeader}>
+                    <Text style={styles.entryTitle}>{exp.heading}</Text>
+                    <Text style={styles.entryDate}>
+                    {exp.from_month_year} {exp.to_month_year && `- ${exp.to_month_year}`}
+                    </Text>
+                </View>
+                {exp.bullet_points.length > 0 && (
+                    <View style={styles.bulletList}>
+                    {exp.bullet_points.map((bullet, bidx) => (
+                        <Text key={bidx} style={styles.bullet}>• {bullet}</Text>
+                    ))}
+                    </View>
+                )}
+                </View>
+            ))}
+            </View>
+        )}
+
+        {resumeData.education.flag && resumeData.education.values.length > 0 && (
+            <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Education</Text>
+            {resumeData.education.values.map((edu, idx) => (
+                <Text key={idx} style={styles.text}>{edu}</Text>
+            ))}
+            </View>
+        )}
+
+        {resumeData.skills.flag && resumeData.skills.values.length > 0 && (
+            <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Skills</Text>
+            <Text style={styles.text}>{resumeData.skills.values.join(', ')}</Text>
+            </View>
+        )}
+        </Page>
+    </Document>
+);
+
+const styles = StyleSheet.create({
+    page: {
+        padding: 40,
+        fontFamily: 'Helvetica',
+    },
+    section: {
+        marginBottom: 16,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 8,
+    },
+    contactInfo: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginBottom: 8,
+    },
+    contactText: {
+        fontSize: 10,
+        color: '#666',
+    },
+    sectionTitle: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        marginBottom: 8,
+        borderBottom: '1px solid #000',
+        paddingBottom: 4,
+    },
+    text: {
+        fontSize: 11,
+        lineHeight: 1.5,
+    },
+    entryContainer: {
+        marginBottom: 12,
+    },
+    entryHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 4,
+    },
+    entryTitle: {
+        fontSize: 12,
+        fontWeight: 'bold',
+    },
+    entryDate: {
+        fontSize: 10,
+        color: '#666',
+    },
+    bulletList: {
+        marginLeft: 12,
+    },
+    bullet: {
+        fontSize: 11,
+        marginBottom: 4,
+        lineHeight: 1.4,
+    },
+});
 
 const BuildResume = () => {
   const [fullName, setFullName] = useState("");
@@ -28,7 +150,7 @@ const BuildResume = () => {
 
   // local temporary inputs for adding list items
   const [newExpElement, setNewExpElement] = useState({ heading: "", from_month_year: "", to_month_year: "" });
-  const [currentBulletInput, setCurrentBulletInput] = useState("");
+  const [expBulletInputs, setExpBulletInputs] = useState({});
   const [newEduEntry, setNewEduEntry] = useState("");
   const [newSkill, setNewSkill] = useState("");
 
@@ -46,16 +168,17 @@ const BuildResume = () => {
   };
 
   const addExperienceBullet = (expIndex) => {
-    if (!currentBulletInput.trim()) return;
+    const bulletText = expBulletInputs[expIndex] || "";
+    if (!bulletText.trim()) return;
     setExperience((prev) => ({
       ...prev,
       values: prev.values.map((exp, i) =>
         i === expIndex
-          ? { ...exp, bullet_points: [...exp.bullet_points, currentBulletInput.trim()] }
+          ? { ...exp, bullet_points: [...exp.bullet_points, bulletText.trim()] }
           : exp
       )
     }));
-    setCurrentBulletInput("");
+    setExpBulletInputs((prev) => ({ ...prev, [expIndex]: "" }));
   };
 
   const removeExperienceElement = (index) => {
@@ -87,6 +210,7 @@ const BuildResume = () => {
   const removeSkill = (index) => {
     setSkills((prev) => ({ ...prev, values: prev.values.filter((_, i) => i !== index) }));
   };
+
 
   return (
     <Container>
@@ -229,8 +353,8 @@ const BuildResume = () => {
                           <Input
                             placeholder="Add bullet point"
                             size="sm"
-                            value={currentBulletInput}
-                            onChange={(e) => setCurrentBulletInput(e.target.value)}
+                            value={expBulletInputs[expIndex] || ""}
+                            onChange={(e) => setExpBulletInputs((prev) => ({ ...prev, [expIndex]: e.target.value }))}
                           />
                           <Button size="sm" onClick={() => addExperienceBullet(expIndex)}>Add</Button>
                         </HStack>
@@ -334,9 +458,8 @@ const BuildResume = () => {
         <Box as="hr" borderColor="gray.200" my={4} />
 
         <HStack justify="flex-end" pt={4}>
-          <Button colorScheme="blue" onClick={() => {
-            // example save/preview action - you can replace with real save
-            const resumeObject = {
+          <PDFDownloadLink
+            document={<ResumePDF resumeData={{
               fullName,
               linkedinUrl,
               phoneNo,
@@ -345,11 +468,15 @@ const BuildResume = () => {
               experience,
               education,
               skills,
-            };
-            console.log("Resume object:", resumeObject);
-          }}>
-            Save / Preview
-          </Button>
+            }} />}
+            fileName="resume-gen.pdf"
+          >
+            {({ blob, url, loading, error }) => (
+              <Button colorScheme="blue" isDisabled={loading}>
+                {loading ? 'Generating PDF...' : 'Save / Preview'}
+              </Button>
+            )}
+          </PDFDownloadLink>
         </HStack>
       </VStack>
     </Box>
