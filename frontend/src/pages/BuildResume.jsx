@@ -340,9 +340,11 @@ const BuildResume = () => {
 
         <Box as="hr" borderColor="gray.200" my={4} />
 
-        <HStack justify="flex-end" pt={4}>
+        <HStack justify="center" pt={4}>
           <Button
             colorScheme="blue"
+            size="lg"
+            fontSize="lg"
             onClick={() => {
               const resumeData = {
                 fullName,

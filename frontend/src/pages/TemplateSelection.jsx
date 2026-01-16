@@ -19,12 +19,12 @@ const TemplateSelection = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const resumeData = location.state?.resumeData || {}
-  const [selectedTemplate, setSelectedTemplate] = useState('classic')
+  const [selectedTemplate, setSelectedTemplate] = useState('template1')
 
   const templates = [
-    { id: 'classic', name: 'Classic', description: 'A clean and professional template' },
-    { id: 'modern', name: 'Modern', description: 'A contemporary design with colors' },
-    { id: 'minimalist', name: 'Minimalist', description: 'Simple and elegant layout' },
+    { id: 'template1', name: 'Template 1', description: 'Resume Template 1' },
+    { id: 'template2', name: 'Template 2', description: 'Resume Template 2' },
+    { id: 'template3', name: 'Template 3', description: 'Resume Template 3' },
   ]
 
   return (
@@ -48,7 +48,6 @@ const TemplateSelection = () => {
                 cursor="pointer"
                 borderWidth={selectedTemplate === template.id ? '3px' : '1px'}
                 borderColor={selectedTemplate === template.id ? 'blue.500' : 'gray.200'}
-                bg={selectedTemplate === template.id ? 'blue.50' : 'white'}
                 onClick={() => setSelectedTemplate(template.id)}
                 _hover={{ shadow: 'md' }}
               >
@@ -69,6 +68,8 @@ const TemplateSelection = () => {
           <HStack justify="space-between" pt={6}>
             <Button
               variant="outline"
+              size="lg"
+              fontSize="lg"
               onClick={() => navigate(-1)}
             >
               Back
@@ -79,7 +80,7 @@ const TemplateSelection = () => {
               fileName="resume.pdf"
             >
               {({ blob, url, loading, error }) => (
-                <Button colorScheme="blue" isDisabled={loading}>
+                <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
                   {loading ? 'Generating PDF...' : 'Save / Preview'}
                 </Button>
               )}
