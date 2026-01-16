@@ -6,6 +6,7 @@ import CreateAccountPage from "./pages/CreateAccountPage";
 import Dashboard from "./pages/Dashboard";
 import ViewResumes from "./pages/ViewResumes";
 import BuildResume from "./pages/BuildResume";
+import TemplateSelection from "./pages/TemplateSelection";
 
 function App() {
 
@@ -18,7 +19,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/viewresumes" element={<ViewResumes />} />
         <Route path="/buildresume" element={<BuildResume />} />
-
+        <Route path="/template-selection" element={<TemplateSelection />} />
       </Routes>
     </Box>
   );

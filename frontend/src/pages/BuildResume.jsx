@@ -1,5 +1,4 @@
 import Navbar from '@/app-components/Navbar'
-import ResumePDF from '@/app-components/ResumePDF'
 import {
   Container,
   Heading,
@@ -16,9 +15,10 @@ import {
   Field
 } from '@chakra-ui/react'
 import React, { useState } from 'react'
-import { PDFDownloadLink } from '@react-pdf/renderer'
+import { useNavigate } from 'react-router-dom'
 
 const BuildResume = () => {
+  const navigate = useNavigate()
   const [fullName, setFullName] = useState("");
   const [linkedinUrl, setLinkedinUrl] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
@@ -97,7 +97,10 @@ const BuildResume = () => {
       <Navbar />
       <Box maxWidth="50%" mx="auto">
       <VStack spacing={6} align="stretch">
-        <Heading size={"6xl"} textAlign="center">Enter Your Information</Heading>
+        <VStack spacing={2} align="center">
+          <Box fontSize="sm" fontWeight="medium" color="blue.600">Step 1 of 2</Box>
+          <Heading size={"6xl"} textAlign="center">Enter Your Information</Heading>
+        </VStack>
 
         <Stack spacing={4}>
             <Field.Root>
@@ -338,25 +341,25 @@ const BuildResume = () => {
         <Box as="hr" borderColor="gray.200" my={4} />
 
         <HStack justify="flex-end" pt={4}>
-          <PDFDownloadLink
-            document={<ResumePDF resumeData={{
-              fullName,
-              linkedinUrl,
-              phoneNo,
-              email,
-              summary,
-              experience,
-              education,
-              skills,
-            }} />}
-            fileName="resume-gen.pdf"
+          <Button
+            colorScheme="blue"
+            onClick={() => {
+              const resumeData = {
+                fullName,
+                linkedinUrl,
+                phoneNo,
+                email,
+                summary,
+                experience,
+                education,
+                skills,
+              };
+              //i might move the storage of resume data to the global store (userStore)
+              navigate('/template-selection', { state: { resumeData } });
+            }}
           >
-            {({ blob, url, loading, error }) => (
-              <Button isDisabled={loading}>
-                {loading ? 'Generating PDF...' : 'Save / Preview'}
-              </Button>
-            )}
-          </PDFDownloadLink>
+            Next
+          </Button>
         </HStack>
       </VStack>
     </Box>
