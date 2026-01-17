@@ -1,6 +1,8 @@
 import Navbar from '@/app-components/Navbar'
-import ResumePDF from '@/app-components/ResumePDF'
+import { Template1PDF, Template2PDF, Template3PDF } from '@/app-components/ResumePDF'
 import template1Image from '@/assets/template-1-sample.png'
+import template2Image from '@/assets/template-2-sample.png'
+import template3Image from '@/assets/template-3-sample.png'
 import {
   Container,
   Heading,
@@ -81,9 +83,22 @@ const TemplateSelection = () => {
 
   const templates = [
     { id: 'template1', name: 'Template 1', description: 'Resume Template 1', src: template1Image },
-    { id: 'template2', name: 'Template 2', description: 'Resume Template 2', src: template1Image },
-    { id: 'template3', name: 'Template 3', description: 'Resume Template 3', src: template1Image },
+    { id: 'template2', name: 'Template 2', description: 'Resume Template 2', src: template2Image },
+    { id: 'template3', name: 'Template 3', description: 'Resume Template 3', src: template3Image },
   ]
+
+  const getTemplateComponent = (templateId, data) => {
+    switch (templateId) {
+      case 'template1':
+        return <Template1PDF resumeData={data} />
+      case 'template2':
+        return <Template2PDF resumeData={data} />
+      case 'template3':
+        return <Template3PDF resumeData={data} />
+      default:
+        return <Template1PDF resumeData={data} />
+    }
+  }
 
   return (
     <Container>
@@ -134,7 +149,7 @@ const TemplateSelection = () => {
             </Button>
 
             <PDFDownloadLink
-              document={<ResumePDF resumeData={resumeData} />}
+              document={getTemplateComponent(selectedTemplate, resumeData)}
               fileName="resume.pdf"
             >
               {({ blob, url, loading, error }) => (
@@ -145,7 +160,7 @@ const TemplateSelection = () => {
             </PDFDownloadLink>
 
             <PDFDownloadLink
-              document={<ResumePDF resumeData={sampleResumeData} />}
+              document={getTemplateComponent(selectedTemplate, sampleResumeData)}
               fileName="sample-resume.pdf"
             >
               {({ blob, url, loading, error }) => (
