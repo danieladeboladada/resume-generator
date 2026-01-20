@@ -100,6 +100,8 @@ const TemplateSelection = () => {
     }
   }
 
+
+
   return (
     <Container>
       <Navbar />
@@ -148,27 +150,79 @@ const TemplateSelection = () => {
               Back
             </Button>
 
-            <PDFDownloadLink
-              document={getTemplateComponent(selectedTemplate, resumeData)}
-              fileName="resume.pdf"
-            >
-              {({ blob, url, loading, error }) => (
-                <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
-                  {loading ? 'Generating PDF...' : 'Download PDF'}
-                </Button>
-              )}
-            </PDFDownloadLink>
+            {selectedTemplate === 'template1' && (
+              <PDFDownloadLink
+                document={<Template1PDF resumeData={resumeData} />}
+                fileName="resume.pdf"
+              >
+                {({ blob, url, loading, error }) => (
+                  <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
+                    {loading ? 'Generating PDF...' : 'Download PDF'}
+                  </Button>
+                )}
+              </PDFDownloadLink>
+            )}
+            {selectedTemplate === 'template2' && (
+              <PDFDownloadLink
+                document={<Template2PDF resumeData={resumeData} />}
+                fileName="resume.pdf"
+              >
+                {({ blob, url, loading, error }) => (
+                  <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
+                    {loading ? 'Generating PDF...' : 'Download PDF'}
+                  </Button>
+                )}
+              </PDFDownloadLink>
+            )}
+            {selectedTemplate === 'template3' && (
+              <PDFDownloadLink
+                document={<Template3PDF resumeData={resumeData} />}
+                fileName="resume.pdf"
+              >
+                {({ blob, url, loading, error }) => (
+                  <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
+                    {loading ? 'Generating PDF...' : 'Download PDF'}
+                  </Button>
+                )}
+              </PDFDownloadLink>
+            )}
 
-            <PDFDownloadLink
-              document={getTemplateComponent(selectedTemplate, sampleResumeData)}
-              fileName="sample-resume.pdf"
-            >
-              {({ blob, url, loading, error }) => (
-                <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
-                  {loading ? 'Generating PDF...' : 'Download Sample PDF'}
-                </Button>
-              )}
-            </PDFDownloadLink>
+            {selectedTemplate === 'template1' && (
+              <PDFDownloadLink
+                document={<Template1PDF resumeData={sampleResumeData} />}
+                fileName="sample-resume.pdf"
+              >
+                {({ blob, url, loading, error }) => (
+                  <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
+                    {loading ? 'Generating PDF...' : 'Download Sample PDF'}
+                  </Button>
+                )}
+              </PDFDownloadLink>
+            )}
+            {selectedTemplate === 'template2' && (
+              <PDFDownloadLink
+                document={<Template2PDF resumeData={sampleResumeData} />}
+                fileName="sample-resume.pdf"
+              >
+                {({ blob, url, loading, error }) => (
+                  <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
+                    {loading ? 'Generating PDF...' : 'Download Sample PDF'}
+                  </Button>
+                )}
+              </PDFDownloadLink>
+            )}
+            {selectedTemplate === 'template3' && (
+              <PDFDownloadLink
+                document={<Template3PDF resumeData={sampleResumeData} />}
+                fileName="sample-resume.pdf"
+              >
+                {({ blob, url, loading, error }) => (
+                  <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
+                    {loading ? 'Generating PDF...' : 'Download Sample PDF'}
+                  </Button>
+                )}
+              </PDFDownloadLink>
+            )}
           </HStack>
         </VStack>
       </Box>
