@@ -17,6 +17,7 @@
     "mongoose": "^8.19.3"
   },
   "devDependencies": {
+    "baseline-browser-mapping": "^2.9.16",
     "nodemon": "^3.1.11"
   }
 }

@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
 import loginRoutes from './routes/login.route.js';
+import resumeRoutes from './routes/resume.route.js';
 
 dotenv.config();
 
@@ -9,6 +10,7 @@ const app = express();
 app.use(express.json()); //allows us use json body in requests
 
 app.use('/api', loginRoutes)
+app.use('/api/resume', resumeRoutes)
 
 app.listen(3000, () => {
     connectDB();
