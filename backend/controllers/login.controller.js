@@ -35,7 +35,7 @@ export const verifyLogin = async (req, res) => {
             return res.status(404).json({success: false, message: "login not found"});
         }
 
-        res.status(200).json({success: true, message: "Login found!"});
+        res.status(200).json({success: true, user_id: foundLogin._id, message: "Login found!"});
     } catch (error) {
         res.status(500).json({success: false, message: "Server error"});
     }

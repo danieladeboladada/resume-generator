@@ -5,9 +5,10 @@ import { useUserStore } from '@/store/userStore';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { setLoggedInUser } = useUserStore();
+  const { setLoggedInUser, setLoggedInUserId } = useUserStore();
 
   const logOutUser = () => {
+    setLoggedInUserId(null);
     setLoggedInUser(null);
     navigate('/');
   }

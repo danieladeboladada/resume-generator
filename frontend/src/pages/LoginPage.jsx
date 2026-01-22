@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const LoginPage = () => {
   const [login, setLogin] = useState({user_name: '', pass_word: ''});
   const navigate = useNavigate();
-  const { setLoggedInUser } = useUserStore();
+  const { setLoggedInUser, setLoggedInUserId } = useUserStore();
 
   const authLogin = async () => {
     try {
@@ -17,12 +17,13 @@ const LoginPage = () => {
         },
         body: JSON.stringify(login)
       })
-      const data = await res.json()
-      if(data.success){
+      const response = await res.json()
+      if(response.success){
+        setLoggedInUserId(response.user_id);
         setLoggedInUser(login);
         navigate('/dashboard');
       } else {
-        console.log("Login failed:", data.message)
+        alert("Login failed:", response.message)
       }
     }
     catch (error) {
