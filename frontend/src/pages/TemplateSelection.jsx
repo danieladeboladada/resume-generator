@@ -13,10 +13,12 @@ import {
   Card,
   SimpleGrid,
   Image,
+  Input,
+  Field
 } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { PDFDownloadLink, renderToBuffer } from '@react-pdf/renderer'
+import { PDFDownloadLink, pdf } from '@react-pdf/renderer'
 import { useUserStore } from '@/store/userStore'
 
 const getSampleResumeData = () => ({
@@ -81,6 +83,8 @@ const TemplateSelection = () => {
   const resumeData = location.state?.resumeData || {}
   const sampleResumeData = getSampleResumeData()
   const [selectedTemplate, setSelectedTemplate] = useState('template1')
+  const [resumeName, setResumeName] = useState('')
+  const [isPDFSaving, setIsPDFSaving] = useState(false);
 
   const templates = [
     { id: 'template1', name: 'Template 1', description: 'Resume Template 1', src: template1Image },
@@ -101,15 +105,15 @@ const TemplateSelection = () => {
     }
   }
 
-  const savePdfToDatabase = async (pdfBuffer, userId) => {
+  const savePdfToDatabase = async (base64data, userId, resName) => {
     try {
-      const base64Buffer = pdfBuffer.toString('base64')
       const response = await fetch('/api/resume/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           user_id: userId,
-          resume_file: base64Buffer
+          resume_name: resName || 'My Resume',
+          resume_file: base64data
         })
       })
       const data = await response.json()
@@ -124,29 +128,29 @@ const TemplateSelection = () => {
     }
   }
 
-  const handleSaveResume = async (template) => {
+  const handleSaveResume = async (templateId) => {
+    setIsPDFSaving(true);
     try {
-        let pdfBuffer = null;
-        switch (template) {
-            case 'template1':
-                pdfBuffer = await renderToBuffer(<Template1PDF resumeData={resumeData} />)
-            case 'template2':
-                pdfBuffer = await renderToBuffer(<Template2PDF resumeData={resumeData} />)
-            case 'template3':
-                pdfBuffer = await renderToBuffer(<Template3PDF resumeData={resumeData} />)
-            default:
-                pdfBuffer = await renderToBuffer(<Template1PDF resumeData={resumeData} />)
-        }
-      const userId = useUserStore.getState().getLoggedInUserId()
-      console.log("after getting user id:", userId)
-      await savePdfToDatabase(pdfBuffer, userId)
-      console.log("PDF saved to database successfully")
-    } catch (error) {
-      console.error('Error rendering PDF:', error)
-      alert('Error generating PDF')
-    }
-  }
+        const MyDoc = getTemplateComponent(templateId, resumeData)
+        
+        const blob = await pdf(MyDoc).toBlob()
 
+        const reader = new FileReader()
+        reader.readAsDataURL(blob)
+        reader.onloadend = async () => {
+        const base64data = reader.result.split(',')[1] // Remove the data:application/pdf;base64, prefix
+        
+        const userId = useUserStore.getState().getLoggedInUserId();
+        await savePdfToDatabase(base64data, userId, resumeName);
+        };
+        
+    } catch (error) {
+        console.error('Error rendering PDF:', error)
+        alert('Error generating PDF')
+    } finally {
+        setIsPDFSaving(false)
+    }
+}
 
   return (
     <Container>
@@ -170,6 +174,18 @@ const TemplateSelection = () => {
               Select a Template
             </Heading>
           </VStack>
+
+            <Field.Root>
+            <Field.Label fontSize="lg" fontWeight="medium" mb={2}>
+                Resume Name
+            </Field.Label>
+            <Input
+                placeholder="Enter resume name"
+                value={resumeName}
+                onChange={(e) => setResumeName(e.target.value)}
+                size="lg"
+            />
+            </Field.Root>
 
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
             {templates.map((template) => (
@@ -202,7 +218,7 @@ const TemplateSelection = () => {
               <>
               <PDFDownloadLink
                 document={<Template1PDF resumeData={resumeData} />}
-                fileName="resume.pdf"
+                fileName={`${resumeName || 'resume'}.pdf`}
               >
                 {({ blob, url, loading, error }) => (
                   <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
@@ -228,7 +244,7 @@ const TemplateSelection = () => {
               <>
               <PDFDownloadLink
                 document={<Template2PDF resumeData={resumeData} />}
-                fileName="resume.pdf"
+                fileName={`${resumeName || 'resume'}.pdf`}
               >
                 {({ blob, url, loading, error }) => (
                   <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
@@ -254,7 +270,7 @@ const TemplateSelection = () => {
               <>
               <PDFDownloadLink
                 document={<Template3PDF resumeData={resumeData} />}
-                fileName="resume.pdf"
+                fileName={`${resumeName || 'resume'}.pdf`}
               >
                 {({ blob, url, loading, error }) => (
                   <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
@@ -276,7 +292,8 @@ const TemplateSelection = () => {
               </>
             )}
 
-            <Button colorScheme="green" size="lg" fontSize="lg" onClick={() => handleSaveResume(selectedTemplate)}>
+            <Button colorScheme="green" size="lg" fontSize="lg" loading={isPDFSaving}
+                onClick={() => handleSaveResume(selectedTemplate)}>
               Save PDF
             </Button>
           </HStack>

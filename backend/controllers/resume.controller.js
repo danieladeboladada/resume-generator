@@ -2,14 +2,14 @@ import Resume from '../models/resumes.model.js';
 
 //to save a new resume
 export const saveResume = async (req, res) => {
-    const { user_id, resume_file } = req.body;
+    const { user_id, resume_name, resume_file } = req.body;
     console.log("Received resume data for user:", user_id);
 
-    if (!user_id || !resume_file) {
-        return res.status(400).json({ success: false, message: 'User ID and resume file are required' });
+    if (!user_id || !resume_name || !resume_file) {
+        return res.status(400).json({ success: false, message: 'User ID, resume name, and resume file are required' });
     }
 
-    const newResume = new Resume({ user_id, resume_file });
+    const newResume = new Resume({ user_id, resume_name, resume_file });
 
     try {
         await newResume.save();
@@ -22,7 +22,7 @@ export const saveResume = async (req, res) => {
 
 //to get all resumes for a user (in case multiple resumes exist)
 export const getAllResumesByUserId = async (req, res) => {
-    const { user_id } = req.params;
+    const { user_id } = req.params
     console.log("Fetching all resumes for user:", user_id);
 
     if (!user_id) {
@@ -30,12 +30,12 @@ export const getAllResumesByUserId = async (req, res) => {
     }
 
     try {
-        const resumes = await Resume.find({ user_id });
+        const resumes = await Resume.find({ user_id: user_id });
         if (resumes.length === 0) {
             return res.status(404).json({ success: false, message: "No resumes found for this user" });
         }
 
-        res.status(200).json({ success: true, data: resumes });
+        res.status(200).json({ success: true, resumes: resumes });
     } catch (error) {
         console.log("Error in get all resumes:", error.message);
         res.status(500).json({ success: false, message: "Server Error" });

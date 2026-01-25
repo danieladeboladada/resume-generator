@@ -7,6 +7,10 @@ const resumeSchema = new mongoose.Schema({
         ref: 'Credential',
         required: true
     },
+    resume_name: {
+        type: String,
+        required: true
+    },
     resume_file: {
         type: Buffer,
         required: true

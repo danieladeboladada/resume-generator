@@ -1,51 +1,64 @@
 import Navbar from '@/app-components/Navbar'
 import { Checkbox, Container, Heading, Table, VStack } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useUserStore } from '@/store/userStore'
 
 const ViewResumes = () => {
-    // Mock data
-    const mockResumes = [
-        { id: '1', name: 'Software Engineer Resume', dateCreated: '2025-12-05' },
-        { id: '2', name: 'Product Manager CV', dateCreated: '2025-11-28' },
-        { id: '3', name: 'Marketing Specialist Resume', dateCreated: '2025-11-15' },
-        { id: '4', name: 'Data Analyst Resume', dateCreated: '2025-11-10' },
-        { id: '5', name: 'UX Designer Portfolio', dateCreated: '2025-10-22' },
-        { id: '6', name: 'Sales Director Resume', dateCreated: '2025-10-18' },
-        { id: '7', name: 'Financial Analyst CV', dateCreated: '2025-10-05' },
-        { id: '8', name: 'HR Manager Resume', dateCreated: '2025-09-30' },
-    ];
+    const user_id = useUserStore((state) => state.user_id);
+    const [userResumes, setUserResumes] = useState([]);
+    const [selection, setSelection] = useState([]);
 
-    const [selection, setSelection] = useState([])
+    useEffect(() => {
+      const fetchResumes = async () => {
+        if (!user_id) return;
+        try {
+          const response = await fetch(`/api/resume/getall/${user_id}`);
+          const data = await response.json();
+          if (data.success) {
+            setUserResumes(
+              data.resumes.map((resume) => ({
+                id: resume._id,
+                resume_name: resume.resume_name,
+                date_created: resume.createdAt ? resume.createdAt.slice(0, 10) : '',
+              }))
+            );
+          }
+        } catch (err) {
+          setUserResumes([]);
+        }
+      };
+      fetchResumes();
+    }, [user_id]);
 
-    const indeterminate = selection.length > 0 && selection.length < mockResumes.length
+    const indeterminate = selection.length > 0 && selection.length < userResumes.length;
 
-    const rows = mockResumes.map((item) => (
-    <Table.Row
-      key={item.name}
-      data-selected={selection.includes(item.name) ? "" : undefined}
-    >
-      <Table.Cell>
-        <Checkbox.Root
-          size="sm"
-          mt="0.5"
-          aria-label="Select row"
-          checked={selection.includes(item.name)}
-          onCheckedChange={(checked) => {
-            setSelection((prev) =>
-              checked
-                ? [...prev, item.name]
-                : prev.filter((name) => name !== item.name),
-            )
-          }}
-        >
-          <Checkbox.HiddenInput />
-          <Checkbox.Control />
-        </Checkbox.Root>
-      </Table.Cell>
-      <Table.Cell>{item.name}</Table.Cell>
-      <Table.Cell>{item.dateCreated}</Table.Cell>
-    </Table.Row>
-    ))
+    const rows = userResumes.map((item) => (
+      <Table.Row
+        key={item.id}
+        data-selected={selection.includes(item.id) ? "" : undefined}
+      >
+        <Table.Cell>
+          <Checkbox.Root
+            size="sm"
+            mt="0.5"
+            aria-label="Select row"
+            checked={selection.includes(item.id)}
+            onCheckedChange={(checked) => {
+              setSelection((prev) =>
+                checked
+                  ? [...prev, item.id]
+                  : prev.filter((id) => id !== item.id),
+              );
+            }}
+          >
+            <Checkbox.HiddenInput />
+            <Checkbox.Control />
+          </Checkbox.Root>
+        </Table.Cell>
+        <Table.Cell>{item.resume_name}</Table.Cell>
+        <Table.Cell>{item.date_created}</Table.Cell>
+      </Table.Row>
+    ));
 
 
   return (
@@ -64,7 +77,7 @@ const ViewResumes = () => {
                         checked={indeterminate ? "indeterminate" : selection.length > 0}
                         onCheckedChange={(checked) => {
                             setSelection(
-                            checked ? mockResumes.map((item) => item.name) : [],
+                              checked ? userResumes.map((item) => item.id) : [],
                             )
                         }}
                         >
@@ -72,7 +85,7 @@ const ViewResumes = () => {
                         <Checkbox.Control />
                         </Checkbox.Root>
                     </Table.ColumnHeader>
-                    <Table.ColumnHeader>Name</Table.ColumnHeader>
+                    <Table.ColumnHeader>Resume Name</Table.ColumnHeader>
                     <Table.ColumnHeader>Date Created</Table.ColumnHeader>
                     </Table.Row>
                 </Table.Header>
