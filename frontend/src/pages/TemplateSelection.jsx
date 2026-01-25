@@ -113,7 +113,7 @@ const TemplateSelection = () => {
         body: JSON.stringify({
           user_id: userId,
           resume_name: resName || 'My Resume',
-          resume_file: base64data
+          resume_body: base64data
         })
       })
       const data = await response.json()

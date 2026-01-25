@@ -2,14 +2,14 @@ import Resume from '../models/resumes.model.js';
 
 //to save a new resume
 export const saveResume = async (req, res) => {
-    const { user_id, resume_name, resume_file } = req.body;
+    const { user_id, resume_name, resume_body } = req.body;
     console.log("Received resume data for user:", user_id);
 
-    if (!user_id || !resume_name || !resume_file) {
-        return res.status(400).json({ success: false, message: 'User ID, resume name, and resume file are required' });
+    if (!user_id || !resume_name || !resume_body) {
+        return res.status(400).json({ success: false, message: 'User ID, resume name, and resume body are required' });
     }
 
-    const newResume = new Resume({ user_id, resume_name, resume_file });
+    const newResume = new Resume({ user_id, resume_name, resume_body });
 
     try {
         await newResume.save();
@@ -39,5 +39,22 @@ export const getAllResumesByUserId = async (req, res) => {
     } catch (error) {
         console.log("Error in get all resumes:", error.message);
         res.status(500).json({ success: false, message: "Server Error" });
+    }
+};
+
+export const deleteResumeById = async (req, res) => {
+    const { resume_id } = req.params;
+    if (!resume_id) {
+        return res.status(400).json({ success: false, message: 'Resume ID is required' });
+    }
+    try {
+        const deleted = await Resume.findByIdAndDelete(resume_id);
+        if (!deleted) {
+            return res.status(404).json({ success: false, message: 'Resume not found' });
+        }
+        res.status(200).json({ success: true, message: 'Resume deleted successfully' });
+    } catch (error) {
+        console.log('Error in delete resume:', error.message);
+        res.status(500).json({ success: false, message: 'Server Error' });
     }
 };

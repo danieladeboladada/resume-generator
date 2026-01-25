@@ -11,7 +11,7 @@ const resumeSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    resume_file: {
+    resume_body: {
         type: Buffer,
         required: true
     }
