@@ -12,7 +12,7 @@ const resumeSchema = new mongoose.Schema({
         required: true
     },
     resume_body: {
-        type: Buffer,
+        type: String,
         required: true
     }
 },  { timestamps: true //createdAt, updatedAt

@@ -1,3 +1,4 @@
+import getSampleResumeData from '../utils/ResumeUtil';
 import Navbar from '@/app-components/Navbar'
 import {
   Container,
@@ -33,6 +34,18 @@ const BuildResume = () => {
   const [expBulletInputs, setExpBulletInputs] = useState({});
   const [newEduEntry, setNewEduEntry] = useState("");
   const [newSkill, setNewSkill] = useState("");
+
+    const loadSampleData = () => {
+        const sample = getSampleResumeData();
+        setFullName(sample.fullName || "");
+        setLinkedinUrl(sample.linkedinUrl || "");
+        setPhoneNo(sample.phoneNo || "");
+        setEmail(sample.email || "");
+        setSummary(sample.summary || { flag: false, value: "" });
+        setExperience(sample.experience || { flag: false, values: [] });
+        setEducation(sample.education || { flag: false, values: [] });
+        setSkills(sample.skills || { flag: false, values: [] });
+    };
 
   // handlers for list items
   const addExperienceElement = () => {
@@ -340,7 +353,15 @@ const BuildResume = () => {
 
         <Box as="hr" borderColor="gray.200" my={4} />
 
-        <HStack justify="center" pt={4}>
+        <HStack justify="center" pt={4} spacing={4}>
+          <Button
+            colorScheme="gray"
+            size="lg"
+            variant="outline"
+            onClick={() => loadSampleData()}
+          >
+            Load Sample Data
+          </Button>
           <Button
             colorScheme="blue"
             size="lg"

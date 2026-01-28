@@ -20,62 +20,7 @@ import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { PDFDownloadLink, pdf } from '@react-pdf/renderer'
 import { useUserStore } from '@/store/userStore'
-
-const getSampleResumeData = () => ({
-  fullName: 'John Doe',
-  linkedinUrl: 'https://www.linkedin.com/in/johndoe',
-  phoneNo: '(555) 123-4567',
-  email: 'john.doe@example.com',
-  summary: {
-    flag: true,
-    value: 'Experienced software engineer with 5+ years of expertise in full-stack development. Passionate about building scalable applications and mentoring junior developers.'
-  },
-  experience: {
-    flag: true,
-    values: [
-      {
-        heading: 'Senior Software Engineer',
-        from_month_year: 'Jan 2021',
-        to_month_year: 'Present',
-        bullet_points: [
-          'Led development of microservices architecture serving 100k+ users',
-          'Improved application performance by 40% through optimization',
-          'Mentored 5 junior developers and conducted code reviews'
-        ]
-      },
-      {
-        heading: 'Software Engineer',
-        from_month_year: 'Jun 2019',
-        to_month_year: 'Dec 2020',
-        bullet_points: [
-          'Built RESTful APIs using Node.js and Express',
-          'Implemented responsive frontend using React and Chakra UI',
-          'Collaborated with cross-functional teams on product features'
-        ]
-      }
-    ]
-  },
-  education: {
-    flag: true,
-    values: [
-      'Bachelor of Science in Computer Science - State University, 2019',
-      'Full Stack Web Development Bootcamp - TechCamp Academy, 2018'
-    ]
-  },
-  skills: {
-    flag: true,
-    values: [
-      'JavaScript',
-      'React',
-      'Node.js',
-      'MongoDB',
-      'PostgreSQL',
-      'AWS',
-      'Docker',
-      'Git'
-    ]
-  }
-});
+import getSampleResumeData from "../utils/ResumeUtil";
 
 const TemplateSelection = () => {
   const location = useLocation()
@@ -149,8 +94,70 @@ const TemplateSelection = () => {
         alert('Error generating PDF')
     } finally {
         setIsPDFSaving(false)
+        navigate('/viewresumes');
     }
-}
+  }
+
+    const renderTemplateButton = (resumeData, isSample, templateId) => {
+        let filename = isSample ? 'sample-resume.pdf' : `${resumeName || 'resume'}.pdf`;
+        switch (templateId) {
+            case 'template1':
+                return (
+                    <PDFDownloadLink
+                        document={<Template1PDF resumeData={resumeData} />}
+                        fileName={filename}
+                    >
+                        {({ blob, url, loading, error }) => (
+                        <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
+                            {loading ? 'Generating PDF...' : 'Download PDF'}
+                        </Button>
+                        )}
+                    </PDFDownloadLink>
+                );
+                
+            case 'template2':
+                return (
+                    <PDFDownloadLink
+                        document={<Template2PDF resumeData={resumeData} />}
+                        fileName={filename}
+                    >
+                        {({ blob, url, loading, error }) => (
+                        <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
+                            {loading ? 'Generating PDF...' : 'Download PDF'}
+                        </Button>
+                        )}
+                    </PDFDownloadLink>
+                );
+                
+            case 'template3':
+                return (
+                    <PDFDownloadLink
+                        document={<Template3PDF resumeData={resumeData} />}
+                        fileName={filename}
+                    >
+                        {({ blob, url, loading, error }) => (
+                        <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
+                            {loading ? 'Generating PDF...' : 'Download PDF'}
+                        </Button>
+                        )}
+                    </PDFDownloadLink>
+                );
+                
+            default:
+                return (
+                    <PDFDownloadLink
+                        document={<Template1PDF resumeData={resumeData} />}
+                        fileName={filename}
+                    >
+                        {({ blob, url, loading, error }) => (
+                        <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
+                            {loading ? 'Generating PDF...' : 'Download PDF'}
+                        </Button>
+                        )}
+                    </PDFDownloadLink>
+                );
+        }
+    }
 
   return (
     <Container>
@@ -214,83 +221,8 @@ const TemplateSelection = () => {
           </SimpleGrid>
 
           <HStack justify="center" pt={6}>
-            {selectedTemplate === 'template1' && (
-              <>
-              <PDFDownloadLink
-                document={<Template1PDF resumeData={resumeData} />}
-                fileName={`${resumeName || 'resume'}.pdf`}
-              >
-                {({ blob, url, loading, error }) => (
-                  <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
-                    {loading ? 'Generating PDF...' : 'Download PDF'}
-                  </Button>
-                )}
-              </PDFDownloadLink>
-              
-              <PDFDownloadLink
-                document={<Template1PDF resumeData={sampleResumeData} />}
-                fileName="sample-resume.pdf"
-              >
-                {({ blob, url, loading, error }) => (
-                  <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
-                    {loading ? 'Generating PDF...' : 'Download Sample PDF'}
-                  </Button>
-                )}
-              </PDFDownloadLink>
-                </>
-            )}
-
-            {selectedTemplate === 'template2' && (
-              <>
-              <PDFDownloadLink
-                document={<Template2PDF resumeData={resumeData} />}
-                fileName={`${resumeName || 'resume'}.pdf`}
-              >
-                {({ blob, url, loading, error }) => (
-                  <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
-                    {loading ? 'Generating PDF...' : 'Download PDF'}
-                  </Button>
-                )}
-              </PDFDownloadLink>
-
-              <PDFDownloadLink
-                document={<Template2PDF resumeData={sampleResumeData} />}
-                fileName="sample-resume.pdf"
-              >
-                {({ blob, url, loading, error }) => (
-                  <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
-                    {loading ? 'Generating PDF...' : 'Download Sample PDF'}
-                  </Button>
-                )}
-              </PDFDownloadLink>
-              </>
-            )}
-
-            {selectedTemplate === 'template3' && (
-              <>
-              <PDFDownloadLink
-                document={<Template3PDF resumeData={resumeData} />}
-                fileName={`${resumeName || 'resume'}.pdf`}
-              >
-                {({ blob, url, loading, error }) => (
-                  <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
-                    {loading ? 'Generating PDF...' : 'Download PDF'}
-                  </Button>
-                )}
-              </PDFDownloadLink>
-
-              <PDFDownloadLink
-                document={<Template3PDF resumeData={sampleResumeData} />}
-                fileName="sample-resume.pdf"
-              >
-                {({ blob, url, loading, error }) => (
-                  <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
-                    {loading ? 'Generating PDF...' : 'Download Sample PDF'}
-                  </Button>
-                )}
-              </PDFDownloadLink>
-              </>
-            )}
+            {/* {renderTemplateButton(resumeData, false, selectedTemplate)}
+            {renderTemplateButton(sampleResumeData, true, selectedTemplate)} */}
 
             <Button colorScheme="green" size="lg" fontSize="lg" loading={isPDFSaving}
                 onClick={() => handleSaveResume(selectedTemplate)}>
