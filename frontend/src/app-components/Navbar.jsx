@@ -1,4 +1,5 @@
 import { Button, Container, Flex, Text, Portal, CloseButton, Dialog } from '@chakra-ui/react'
+import { MdDashboard, MdListAlt, MdCreate } from 'react-icons/md';
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useUserStore } from '@/store/userStore';
@@ -34,29 +35,38 @@ const Navbar = () => {
           <Text
             textAlign={"center"}
             fontWeight={"bold"}
+            display="flex"
+            alignItems="center"
+            gap={2}
             _hover={{ bg: "pink", color: "black" }}
           >
-            Dashboard
+            <MdDashboard size={20} /> Dashboard
           </Text>
         </Link>
 
         <Link to={"/viewresumes"}>
           <Text
-            textAlign={"center"} 
-            fontWeight={"bold"} 
+            textAlign={"center"}
+            fontWeight={"bold"}
+            display="flex"
+            alignItems="center"
+            gap={2}
             _hover={{ bg: "pink", color: "black" }}
           >
-            View Resumes
+            <MdListAlt size={20} /> View Resumes
           </Text>
         </Link>
 
         <Link to={"/buildresume"}>
           <Text
-            textAlign={"center"} 
-            fontWeight={"bold"} 
+            textAlign={"center"}
+            fontWeight={"bold"}
+            display="flex"
+            alignItems="center"
+            gap={2}
             _hover={{ bg: "pink", color: "black" }}
           >
-            Build a Resume
+            <MdCreate size={20} /> Build a Resume
           </Text>
         </Link>
 
