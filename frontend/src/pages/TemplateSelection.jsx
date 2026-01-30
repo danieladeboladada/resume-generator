@@ -107,7 +107,7 @@ const TemplateSelection = () => {
         alert('Error generating PDF')
     } finally {
         setIsPDFSaving(false)
-        navigate('/viewresumes');
+        navigate('/dashboard');
     }
   }
 

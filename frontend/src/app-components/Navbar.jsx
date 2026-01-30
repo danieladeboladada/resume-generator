@@ -55,21 +55,6 @@ const Navbar = () => {
         </Text>
       </Link>
 
-      <Link to={"/viewresumes"}>
-        <Text
-          textAlign={"center"}
-          fontWeight={"bold"}
-          display="flex"
-          alignItems="center"
-          gap={2}
-          px={2}
-          py={2}
-          borderRadius="md"
-          _hover={{ bg: "pink.200", color: "black" }}
-        >
-          <MdListAlt size={22} /> View Resumes
-        </Text>
-      </Link>
 
       <Link to={"/buildresume"}>
         <Text

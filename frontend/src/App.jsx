@@ -4,7 +4,6 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import CreateAccountPage from "./pages/CreateAccountPage";
 import Dashboard from "./pages/Dashboard";
-import ViewResumes from "./pages/ViewResumes";
 import BuildResume from "./pages/BuildResume";
 import TemplateSelection from "./pages/TemplateSelection";
 import ProtectedRoute from "./app-components/ProtectedRoute";
@@ -20,11 +19,6 @@ function App() {
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />
-          </ProtectedRoute>
-        } />
-        <Route path="/viewresumes" element={
-          <ProtectedRoute>
-            <ViewResumes />
           </ProtectedRoute>
         } />
         <Route path="/buildresume" element={
