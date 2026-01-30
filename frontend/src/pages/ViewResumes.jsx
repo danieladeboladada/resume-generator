@@ -1,5 +1,5 @@
 import Navbar from '@/app-components/Navbar'
-import { Container, Heading, Table, VStack, Button } from '@chakra-ui/react'
+import { Container, Heading, Table, VStack, Button, Portal, CloseButton, Dialog } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useUserStore } from '@/store/userStore'
 
@@ -53,7 +53,11 @@ const ViewResumes = () => {
       }
     };
 
+    const [dialogOpenId, setDialogOpenId] = useState(null);
+    const [deleting, setDeleting] = useState(false);
+
     const handleDelete = async (resumeId) => {
+      setDeleting(true);
       try {
         const response = await fetch(`/api/resume/delete/${resumeId}`, { method: 'DELETE' });
         const data = await response.json();
@@ -64,6 +68,9 @@ const ViewResumes = () => {
         }
       } catch (err) {
         // Optionally handle error
+      } finally {
+        setDeleting(false);
+        setDialogOpenId(null);
       }
     };
 
@@ -72,12 +79,38 @@ const ViewResumes = () => {
         <Table.Cell>{item.resume_name}</Table.Cell>
         <Table.Cell>{item.date_created}</Table.Cell>
         <Table.Cell style={{ display: 'flex', gap: '0.5rem' }}>
-          <Button size="sm" colorScheme="blue" onClick={() => handleDownload(item.id)}>
+          <Button size="sm" onClick={() => handleDownload(item.id)}>
             Download
           </Button>
-          <Button size="sm" bg="#e57373" color="white" _hover={{ bg: '#c62828' }} onClick={() => handleDelete(item.id)}>
-            Delete
-          </Button>
+          <Dialog.Root isOpen={dialogOpenId === item.id} onClose={() => setDialogOpenId(null)} placement="center">
+            <Dialog.Trigger asChild>
+              <Button size="sm" bg="#e57373" color="white" _hover={{ bg: '#c62828' }} onClick={() => setDialogOpenId(item.id)}>
+                Delete
+              </Button>
+            </Dialog.Trigger>
+            <Portal>
+              <Dialog.Backdrop />
+              <Dialog.Positioner>
+                <Dialog.Content>
+                  <Dialog.Header></Dialog.Header>
+                  <Dialog.Body>
+                    <p>Are you sure you want to delete this resume? This action cannot be undone.</p>
+                  </Dialog.Body>
+                  <Dialog.Footer>
+                    <Dialog.ActionTrigger asChild>
+                      <Button variant="outline" onClick={() => setDialogOpenId(null)} disabled={deleting}>Cancel</Button>
+                    </Dialog.ActionTrigger>
+                    <Button size="sm" bg="#e57373" color="white" _hover={{ bg: '#c62828' }}  onClick={() => handleDelete(item.id)} isLoading={deleting}>
+                      Delete
+                    </Button>
+                  </Dialog.Footer>
+                  <Dialog.CloseTrigger asChild>
+                    <CloseButton size="sm" />
+                  </Dialog.CloseTrigger>
+                </Dialog.Content>
+              </Dialog.Positioner>
+            </Portal>
+          </Dialog.Root>
         </Table.Cell>
       </Table.Row>
     ));

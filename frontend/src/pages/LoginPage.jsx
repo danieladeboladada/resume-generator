@@ -1,5 +1,6 @@
 import { useUserStore } from '@/store/userStore';
-import { Box, Button, Center, Container, Heading, HStack, Input, VStack } from '@chakra-ui/react'
+import { Button, Center, Container, Heading, HStack, Input, VStack, Box } from '@chakra-ui/react'
+import { toaster } from '../components/ui/toaster';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
@@ -11,25 +12,39 @@ const LoginPage = () => {
   const authLogin = async () => {
     try {
       const res = await fetch("/api/verifylogin", {
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(login)
-      })
-      const response = await res.json()
-      if(response.success){
+      });
+      const response = await res.json();
+      if (response.success) {
+        toaster.create({
+          title: 'Login Successful',
+          description: 'You are being redirected to your dashboard...',
+          type: 'success',
+        });
         setLoggedInUserId(response.user_id);
         setLoggedInUser(login);
-        navigate('/dashboard');
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 1500);
       } else {
-        alert("Login failed:", response.message)
+        toaster.create({
+          title: 'Login Failed',
+          description: response.message || 'Invalid username or password.',
+          type: 'error',
+        });
       }
+    } catch (error) {
+      toaster.create({
+        title: 'Login Error',
+        description: error.message || 'An error occurred during login.',
+        type: 'error',
+      });
     }
-    catch (error) {
-      console.log("Error during login fetch:", error.message)
-    }
-  }
+  };
 
   const gotoSignUp = () => {
     navigate('/createacct');
@@ -37,34 +52,32 @@ const LoginPage = () => {
 
   return (
     <Container minH="80vh" display="flex" alignItems="center" justifyContent="center">
-        <VStack spacing={4} textAlign="center">
-          <Heading size={"6xl"}>Log into Resume Generator</Heading>
-            <Box maxW="sm">
-              <Input
-                placeholder="Username"
-                value={login.user_name}
-                onChange={(e) =>
-                  setLogin({ ...login, user_name: e.target.value })
-                }
-              />
-              <Input
-                placeholder="Password"
-                value={login.pass_word}
-                onChange={(e) =>
-                  setLogin({ ...login, pass_word: e.target.value })
-                }
-              />
-
-              <HStack>
-                <Button size={"lg"} onClick={authLogin}>Log Me In</Button>
-                <Button size={"lg"} onClick={gotoSignUp}>Go to Sign Up</Button>
-              </HStack>
-              
-            </Box>
-            
-        </VStack>
+      <VStack spacing={4} textAlign="center">
+        <Heading size={"6xl"}>Log into Resume Generator</Heading>
+        <Box maxW="sm">
+          <Input
+            placeholder="Username"
+            value={login.user_name}
+            onChange={(e) =>
+              setLogin({ ...login, user_name: e.target.value })
+            }
+          />
+          <Input
+            placeholder="Password"
+            type="password"
+            value={login.pass_word}
+            onChange={(e) =>
+              setLogin({ ...login, pass_word: e.target.value })
+            }
+          />
+          <HStack>
+            <Button size={"lg"} onClick={authLogin}>Log Me In</Button>
+            <Button size={"lg"} onClick={gotoSignUp}>Go to Sign Up</Button>
+          </HStack>
+        </Box>
+      </VStack>
     </Container>
-  )
+  );
 }
 
 export default LoginPage

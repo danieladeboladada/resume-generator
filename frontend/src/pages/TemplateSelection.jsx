@@ -50,6 +50,19 @@ const TemplateSelection = () => {
     }
   }
 
+    const handleDownloadPDF = async (data, fileName) => {
+      const doc = getTemplateComponent(selectedTemplate, data);
+      const blob = await pdf(doc).toBlob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName || 'resume.pdf';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    };
+
   const savePdfToDatabase = async (base64data, userId, resName) => {
     try {
       const response = await fetch('/api/resume/save', {
@@ -220,10 +233,17 @@ const TemplateSelection = () => {
             ))}
           </SimpleGrid>
 
-          <HStack justify="center" pt={6}>
-            {/* {renderTemplateButton(resumeData, false, selectedTemplate)}
-            {renderTemplateButton(sampleResumeData, true, selectedTemplate)} */}
-
+          <HStack justify="center" pt={6} spacing={4}>
+            <Button size="lg" fontSize="lg"
+              onClick={() => handleDownloadPDF(resumeData, (resumeName || 'resume') + '.pdf')}
+            >
+              Download PDF
+            </Button>
+            <Button size="lg" fontSize="lg"
+              onClick={() => handleDownloadPDF(sampleResumeData, 'sample_resume.pdf')}
+            >
+              Download Sample PDF
+            </Button>
             <Button colorScheme="green" size="lg" fontSize="lg" loading={isPDFSaving}
                 onClick={() => handleSaveResume(selectedTemplate)}>
               Save PDF
