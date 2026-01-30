@@ -106,10 +106,10 @@ const BuildResume = () => {
 
 
   return (
-    <Container>
+    <Container ml={{ base: 0, md: '220px' }} maxW="calc(100vw - 220px)">
       <Navbar />
       <Box maxWidth="50%" mx="auto">
-      <VStack spacing={6} align="stretch">
+      <VStack spacing={6} align="stretch" mt={8}>
         <VStack spacing={2} align="center">
           <Box fontSize="sm" fontWeight="medium" color="blue.600">Step 1 of 2</Box>
           <Heading size={"6xl"} textAlign="center">Enter Your Information</Heading>

@@ -173,10 +173,10 @@ const TemplateSelection = () => {
     }
 
   return (
-    <Container>
+    <Container ml={{ base: 0, md: '220px' }} maxW="calc(100vw - 220px)">
       <Navbar />
       <Box maxWidth="70%" mx="auto">
-        <VStack spacing={8} align="stretch">
+        <VStack spacing={8} align="stretch" mt={8}>
           <HStack justify="flex-start" pt={0}>
             <Button
               variant="outline"

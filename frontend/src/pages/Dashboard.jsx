@@ -7,10 +7,10 @@ const Dashboard = () => {
   const { getLoggedInUser } = useUserStore();
   const welcomeMessage = getLoggedInUser() ? `Welcome, ${getLoggedInUser().user_name}!` : "Welcome to your Dashboard!";
 
-  return (
-    <Container>
-        <Navbar />
-        <VStack spacing={4}>
+   return (
+     <Container ml={{ base: 0, md: '220px' }} maxW="calc(100vw - 220px)">
+       <Navbar />
+        <VStack spacing={4} mt={8}>
             <Heading size={"6xl"}>{welcomeMessage}</Heading>
         </VStack>
     </Container>

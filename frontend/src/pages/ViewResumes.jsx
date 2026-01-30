@@ -117,9 +117,9 @@ const ViewResumes = () => {
 
 
   return (
-    <Container>
+    <Container ml={{ base: 0, md: '220px' }} maxW="calc(100vw - 220px)">
         <Navbar />
-        <VStack spacing={4}>
+        <VStack spacing={4} mt={8}>
           <Heading size={"6xl"}>Your Resumes</Heading>
           <Table.Root>
             <Table.Header>

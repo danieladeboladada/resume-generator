@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const HomePage = () => {
   return (
     <Container minH="80vh" display="flex" alignItems="center" justifyContent="center">
-        <VStack spacing={4} textAlign="center">
+        <VStack spacing={4} textAlign="center" mt={8}>
             <Heading size={"6xl"}>Welcome to the Resume Generator!</Heading>
             <HStack>
               <Link to={"/login"}>

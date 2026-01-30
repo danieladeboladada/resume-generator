@@ -53,7 +53,7 @@ const CreateAccountPage = () => {
   
   return (
      <Container minH="80vh" display="flex" alignItems="center" justifyContent="center">
-        <VStack spacing={4} textAlign="center">
+        <VStack spacing={4} textAlign="center" mt={8}>
           <Heading size={"6xl"}>Create a Resume Generator Account</Heading>
           <Box maxW="sm">
             <Input
