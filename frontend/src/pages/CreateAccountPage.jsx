@@ -1,5 +1,6 @@
 import { useUserStore } from '@/store/userStore';
 import { Box, Button, Center, Container, Heading, HStack, Input, VStack } from '@chakra-ui/react'
+import { toaster } from '../components/ui/toaster';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
@@ -19,17 +20,30 @@ const CreateAccountPage = () => {
       })
       const response = await res.json()
       if(response.success){
-        alert("Account created and logged in successfully!");
+        toaster.create({
+          title: 'Account Created',
+          description: 'Account created and logged in successfully!',
+          type: 'success',
+        });
         setLoggedInUserId(response.data._id);
         setLoggedInUser(login);
-        navigate('/dashboard');
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 1200);
       } else {
-        alert("Account creation failed:", response.message)
-
+        toaster.create({
+          title: 'Account Creation Failed',
+          description: response.message || 'Could not create account.',
+          type: 'error',
+        });
       }
     }
     catch (error) {
-      console.log("Error during login fetch:", error.message)
+      toaster.create({
+        title: 'Sign Up Error',
+        description: error.message || 'An error occurred during sign up.',
+        type: 'error',
+      });
     }
   }
 
@@ -52,6 +66,7 @@ const CreateAccountPage = () => {
             <Input
               placeholder="Password"
               value={login.pass_word}
+              type="password"
               onChange={(e) =>
                 setLogin({ ...login, pass_word: e.target.value })
               }
