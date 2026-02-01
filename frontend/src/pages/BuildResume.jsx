@@ -109,13 +109,13 @@ const BuildResume = () => {
     <Container ml={{ base: 0, md: '220px' }} maxW="calc(100vw - 220px)">
       <Navbar />
       <Box maxWidth="50%" mx="auto">
-      <VStack spacing={6} align="stretch" mt={8}>
+      <VStack spacing={6} align="stretch" my={8}>
         <VStack spacing={2} align="center">
           <Box fontSize="sm" fontWeight="medium" color="blue.600">Step 1 of 2</Box>
-          <Heading size={"6xl"} textAlign="center">Enter Your Information</Heading>
+          <Heading size={"5xl"} textAlign="center">Enter Your Information</Heading>
         </VStack>
 
-        <Stack spacing={4}>
+        <Stack spacing={4} mt={8}>
             <Field.Root>
               <Field.Label>Full name</Field.Label>
               <Input id="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Jane Doe" />

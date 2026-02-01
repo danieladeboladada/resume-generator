@@ -1,12 +1,13 @@
-import { Button, Box, Flex, Text, Portal, CloseButton, Dialog } from '@chakra-ui/react'
-import { MdDashboard, MdListAlt, MdCreate } from 'react-icons/md';
+import { Button, Box, Text, Portal, CloseButton, Dialog, Avatar, HStack } from '@chakra-ui/react'
+import { MdDashboard, MdCreate } from 'react-icons/md';
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useUserStore } from '@/store/userStore';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { setLoggedInUser, setLoggedInUserId } = useUserStore();
+  const { setLoggedInUser, setLoggedInUserId, getLoggedInUser } = useUserStore();
+  const loggedInUser = getLoggedInUser ? getLoggedInUser() : null;
   const [logoutDialogOpen, setLogoutDialogOpen] = React.useState(false);
   const [loggingOut, setLoggingOut] = React.useState(false);
 
@@ -72,7 +73,15 @@ const Navbar = () => {
         </Text>
       </Link>
 
-      <Box mt="auto" mb={2} w="100%" px={2}>
+      <Box mt="auto" mb={2} w="80%" px={2} display="flex" alignItems="center" flexDirection="column">
+        <HStack mb={4} spacing={3} alignItems="center">
+          <Avatar.Root size="sm" colorPalette={"teal"}>
+            <Avatar.Fallback name={loggedInUser?.user_name || 'User'} />
+          </Avatar.Root>
+          <Text fontWeight="bold" fontSize="md" isTruncated maxW="120px">
+            {loggedInUser?.user_name || 'User'}
+          </Text>
+        </HStack>
         <Dialog.Root isOpen={logoutDialogOpen} onClose={() => setLogoutDialogOpen(false)} placement="center">
           <Dialog.Trigger asChild>
             <Button w="100%" onClick={() => setLogoutDialogOpen(true)} colorScheme="red">Logout</Button>

@@ -18,15 +18,14 @@ import {
 } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { PDFDownloadLink, pdf } from '@react-pdf/renderer'
+import { pdf } from '@react-pdf/renderer'
+import { toaster } from '../components/ui/toaster';
 import { useUserStore } from '@/store/userStore'
-import getSampleResumeData from "../utils/ResumeUtil";
 
 const TemplateSelection = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const resumeData = location.state?.resumeData || {}
-  const sampleResumeData = getSampleResumeData()
   const [selectedTemplate, setSelectedTemplate] = useState('template1')
   const [resumeName, setResumeName] = useState('')
   const [isPDFSaving, setIsPDFSaving] = useState(false);
@@ -76,13 +75,25 @@ const TemplateSelection = () => {
       })
       const data = await response.json()
       if (data.success) {
-        alert('Resume saved to database successfully!')
+        toaster.create({
+          title: 'Success',
+          description: 'Resume saved to database successfully!',
+          type: 'success',
+        });
       } else {
-        alert('Failed to save resume: ' + data.message)
+        toaster.create({
+          title: 'Error',
+          description: 'Failed to save resume: ' + data.message,
+          type: 'error',
+        });
       }
     } catch (error) {
       console.error('Error saving resume:', error)
-      alert('Error saving resume to database')
+      toaster.create({
+        title: 'Error',
+        description: 'Error saving resume to database',
+        type: 'error',
+      });
     }
   }
 
@@ -104,73 +115,16 @@ const TemplateSelection = () => {
         
     } catch (error) {
         console.error('Error rendering PDF:', error)
-        alert('Error generating PDF')
+        toaster.create({
+          title: 'Error',
+          description: 'Error generating PDF',
+          type: 'error',
+        });
     } finally {
         setIsPDFSaving(false)
         navigate('/dashboard');
     }
   }
-
-    const renderTemplateButton = (resumeData, isSample, templateId) => {
-        let filename = isSample ? 'sample-resume.pdf' : `${resumeName || 'resume'}.pdf`;
-        switch (templateId) {
-            case 'template1':
-                return (
-                    <PDFDownloadLink
-                        document={<Template1PDF resumeData={resumeData} />}
-                        fileName={filename}
-                    >
-                        {({ blob, url, loading, error }) => (
-                        <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
-                            {loading ? 'Generating PDF...' : 'Download PDF'}
-                        </Button>
-                        )}
-                    </PDFDownloadLink>
-                );
-                
-            case 'template2':
-                return (
-                    <PDFDownloadLink
-                        document={<Template2PDF resumeData={resumeData} />}
-                        fileName={filename}
-                    >
-                        {({ blob, url, loading, error }) => (
-                        <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
-                            {loading ? 'Generating PDF...' : 'Download PDF'}
-                        </Button>
-                        )}
-                    </PDFDownloadLink>
-                );
-                
-            case 'template3':
-                return (
-                    <PDFDownloadLink
-                        document={<Template3PDF resumeData={resumeData} />}
-                        fileName={filename}
-                    >
-                        {({ blob, url, loading, error }) => (
-                        <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
-                            {loading ? 'Generating PDF...' : 'Download PDF'}
-                        </Button>
-                        )}
-                    </PDFDownloadLink>
-                );
-                
-            default:
-                return (
-                    <PDFDownloadLink
-                        document={<Template1PDF resumeData={resumeData} />}
-                        fileName={filename}
-                    >
-                        {({ blob, url, loading, error }) => (
-                        <Button colorScheme="blue" size="lg" fontSize="lg" isDisabled={loading}>
-                            {loading ? 'Generating PDF...' : 'Download PDF'}
-                        </Button>
-                        )}
-                    </PDFDownloadLink>
-                );
-        }
-    }
 
   return (
     <Container ml={{ base: 0, md: '220px' }} maxW="calc(100vw - 220px)">
@@ -235,16 +189,15 @@ const TemplateSelection = () => {
 
           <HStack justify="center" pt={6} spacing={4}>
             <Button size="lg" fontSize="lg"
+            >
+              Preview PDF
+            </Button>
+            <Button size="lg" fontSize="lg"
               onClick={() => handleDownloadPDF(resumeData, (resumeName || 'resume') + '.pdf')}
             >
               Download PDF
             </Button>
-            <Button size="lg" fontSize="lg"
-              onClick={() => handleDownloadPDF(sampleResumeData, 'sample_resume.pdf')}
-            >
-              Download Sample PDF
-            </Button>
-            <Button colorScheme="green" size="lg" fontSize="lg" loading={isPDFSaving}
+            <Button size="lg" fontSize="lg" loading={isPDFSaving}
                 onClick={() => handleSaveResume(selectedTemplate)}>
               Save PDF
             </Button>

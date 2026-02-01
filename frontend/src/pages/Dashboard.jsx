@@ -1,10 +1,13 @@
 import Navbar from '@/app-components/Navbar'
-import { Container, Heading, VStack, Table, Button, Portal, CloseButton, Dialog } from '@chakra-ui/react'
+import { Container, Heading, VStack, Table, Button, Portal, CloseButton, Dialog, Stack, Box, Float } from '@chakra-ui/react'
+import { MdVisibility, MdDownload, MdDelete, MdAdd } from 'react-icons/md';
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '@/store/userStore';
 
 const Dashboard = () => {
   const { getLoggedInUser } = useUserStore();
+  const navigate = useNavigate();
   const welcomeMessage = getLoggedInUser() ? `Welcome, ${getLoggedInUser().user_name}!` : "Welcome to your Dashboard!";
   const user_id = useUserStore((state) => state.user_id);
   const [userResumes, setUserResumes] = useState([]);
@@ -77,15 +80,18 @@ const Dashboard = () => {
       <Table.Cell>{item.resume_name}</Table.Cell>
       <Table.Cell>{item.date_created}</Table.Cell>
       <Table.Cell style={{ display: 'flex', gap: '0.5rem' }}>
-        <Button size="sm" onClick={() => handleDownload(item.id)}>
-          Download
-        </Button>
-        <Dialog.Root isOpen={dialogOpenId === item.id} onClose={() => setDialogOpenId(null)} placement="center">
-          <Dialog.Trigger asChild>
-            <Button size="sm" bg="#e57373" color="white" _hover={{ bg: '#c62828' }} onClick={() => setDialogOpenId(item.id)}>
-              Delete
-            </Button>
-          </Dialog.Trigger>
+          <Button size="sm" variant="outline" >
+            <MdVisibility /> Preview
+          </Button>
+          <Button size="sm" onClick={() => handleDownload(item.id)} >
+            <MdDownload />Download
+          </Button>
+          <Dialog.Root isOpen={dialogOpenId === item.id} onClose={() => setDialogOpenId(null)} placement="center">
+            <Dialog.Trigger asChild>
+              <Button size="sm" bg="#e57373" color="white" _hover={{ bg: '#c62828' }} onClick={() => setDialogOpenId(item.id)}>
+                <MdDelete /> Delete
+              </Button>
+            </Dialog.Trigger>
           <Portal>
             <Dialog.Backdrop />
             <Dialog.Positioner>
@@ -116,8 +122,23 @@ const Dashboard = () => {
   return (
     <Container ml={{ base: 0, md: '220px' }} maxW="calc(100vw - 220px)">
       <Navbar />
-      <VStack spacing={4} mt={8}>
+      <VStack spacing={4} mt={8} alignItems="flex-start" width="100%" mx={6}>
         <Heading size={"6xl"}>{welcomeMessage}</Heading>
+        <Stack gap="3" mt={4} align="flex-start" width="100%">
+          <Heading size={"lg"}>Build a Resume</Heading>
+          <Box position="relative" width="100px" height="150px" borderRadius="md" boxShadow="md" borderWidth={"thick"}>
+            <Float placement="middle-center">
+              <Button
+                size="lg"
+                aria-label="Add Resume"
+                borderRadius={"full"}
+                onClick={() => navigate('/buildresume')}
+              >
+                <MdAdd size={32} />
+              </Button>
+            </Float>
+          </Box>
+        </Stack>
         <Heading size={"lg"} mt={8}>Your Resumes</Heading>
         <Table.Root>
           <Table.Header>
