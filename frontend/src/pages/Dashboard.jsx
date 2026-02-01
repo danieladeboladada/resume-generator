@@ -4,6 +4,7 @@ import { MdVisibility, MdDownload, MdDelete, MdAdd } from 'react-icons/md';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '@/store/userStore';
+import { toaster } from '../components/ui/toaster';
 
 const Dashboard = () => {
   const { getLoggedInUser } = useUserStore();
@@ -78,10 +79,26 @@ const Dashboard = () => {
       const response = await fetch(`/api/resume/delete/${resumeId}`, { method: 'DELETE' });
       const data = await response.json();
       if (data.success) {
+        const deletedResume = userResumes.find((r) => r.id === resumeId);
         setUserResumes((prev) => prev.filter((r) => r.id !== resumeId));
+        toaster.create({
+          title: 'Resume Deleted',
+          description: `"${deletedResume?.resume_name || 'Resume'}" was deleted successfully.`,
+          type: 'success',
+        });
+      } else {
+        toaster.create({
+          title: 'Delete Failed',
+          description: data.message || 'Failed to delete the resume.',
+          type: 'error',
+        });
       }
     } catch (err) {
-      // Optionally handle error
+      toaster.create({
+        title: 'Delete Failed',
+        description: 'An error occurred while deleting the resume.',
+        type: 'error',
+      });
     } finally {
       setDeleting(false);
       setDialogOpenId(null);

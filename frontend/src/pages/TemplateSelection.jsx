@@ -21,6 +21,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { pdf } from '@react-pdf/renderer'
 import { toaster } from '../components/ui/toaster';
 import { useUserStore } from '@/store/userStore'
+import { MdVisibility, MdSave, MdDownload } from 'react-icons/md';
 
 const TemplateSelection = () => {
   const location = useLocation()
@@ -195,17 +196,14 @@ const TemplateSelection = () => {
           </SimpleGrid>
 
           <HStack justify="center" pt={6} spacing={4}>
-            <Button size="lg" fontSize="lg" onClick={handlePreview}>
-              Preview PDF
+            <Button size="lg" fontSize="lg" onClick={handlePreview} >
+              <MdVisibility /> Preview PDF
             </Button>
-            <Button size="lg" fontSize="lg"
-              onClick={() => handleDownloadPDF(resumeData, (resumeName || 'resume') + '.pdf')}
-            >
-              Download PDF
+            <Button size="lg" fontSize="lg" onClick={() => handleDownloadPDF(resumeData, (resumeName || 'resume') + '.pdf')} >
+              <MdDownload /> Download PDF
             </Button>
-            <Button size="lg" fontSize="lg" loading={isPDFSaving}
-                onClick={() => handleSaveResume(selectedTemplate)}>
-              Save PDF
+            <Button size="lg" fontSize="lg" loading={isPDFSaving} onClick={() => handleSaveResume(selectedTemplate)} >
+              <MdSave /> Save PDF
             </Button>
           </HStack>
         </VStack>
