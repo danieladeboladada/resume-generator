@@ -52,6 +52,19 @@ const Dashboard = () => {
     URL.revokeObjectURL(link.href);
   };
 
+  // Preview handler: open PDF in new tab from base64 string
+  const handlePreview = (base64String) => {
+    const byteCharacters = atob(base64String);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+  };
+
   const handleDownload = (resumeId) => {
     const resume = userResumes.find((r) => r.id === resumeId);
     if (resume && resume.resume_body) {
@@ -80,7 +93,7 @@ const Dashboard = () => {
       <Table.Cell>{item.resume_name}</Table.Cell>
       <Table.Cell>{item.date_created}</Table.Cell>
       <Table.Cell style={{ display: 'flex', gap: '0.5rem' }}>
-          <Button size="sm" variant="outline" >
+          <Button size="sm" variant="outline" onClick={() => handlePreview(item.resume_body)}>
             <MdVisibility /> Preview
           </Button>
           <Button size="sm" onClick={() => handleDownload(item.id)} >

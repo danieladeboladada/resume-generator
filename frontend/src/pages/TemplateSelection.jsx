@@ -49,6 +49,13 @@ const TemplateSelection = () => {
     }
   }
 
+  const handlePreview = async () => {
+    const doc = getTemplateComponent(selectedTemplate, resumeData);
+    const blob = await pdf(doc).toBlob();
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+  };
+
     const handleDownloadPDF = async (data, fileName) => {
       const doc = getTemplateComponent(selectedTemplate, data);
       const blob = await pdf(doc).toBlob();
@@ -188,8 +195,7 @@ const TemplateSelection = () => {
           </SimpleGrid>
 
           <HStack justify="center" pt={6} spacing={4}>
-            <Button size="lg" fontSize="lg"
-            >
+            <Button size="lg" fontSize="lg" onClick={handlePreview}>
               Preview PDF
             </Button>
             <Button size="lg" fontSize="lg"
