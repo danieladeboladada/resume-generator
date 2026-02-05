@@ -1,5 +1,5 @@
 import { Button, Box, Text, Portal, CloseButton, Dialog, Avatar, HStack } from '@chakra-ui/react'
-import { MdDashboard, MdCreate } from 'react-icons/md';
+import { MdDashboard, MdCreate, MdRestoreFromTrash } from 'react-icons/md';
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useUserStore } from '@/store/userStore';
@@ -70,6 +70,22 @@ const Navbar = () => {
           _hover={{ bg: "pink.200", color: "black" }}
         >
           <MdCreate size={22} /> Build a Resume
+        </Text>
+      </Link>
+
+      <Link to={"/recently-deleted"}>
+        <Text
+          textAlign={"center"}
+          fontWeight={"bold"}
+          display="flex"
+          alignItems="center"
+          gap={2}
+          px={2}
+          py={2}
+          borderRadius="md"
+          _hover={{ bg: "pink.200", color: "black" }}
+        >
+          <MdRestoreFromTrash size={22} /> Recently Deleted
         </Text>
       </Link>
 

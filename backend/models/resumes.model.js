@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { RESUME_ACTIVE, RESUME_DELETED } from '../constants.js';
 
 //defining structure for the resumes collection
 const resumeSchema = new mongoose.Schema({
@@ -14,6 +15,15 @@ const resumeSchema = new mongoose.Schema({
     resume_body: {
         type: String,
         required: true
+    },
+    status: {
+        type: String,
+        default: RESUME_ACTIVE,
+        enum: [RESUME_ACTIVE, RESUME_DELETED],
+    },
+    deleted_at: {
+        type: Date,
+        default: null
     }
 },  { timestamps: true //createdAt, updatedAt
     });
