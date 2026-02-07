@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import BuildResume from "./pages/BuildResume";
 import TemplateSelection from "./pages/TemplateSelection";
 import ProtectedRoute from "./app-components/ProtectedRoute";
+import RecentlyDeleted from "./pages/RecentlyDeleted";
 
 function App() {
 
@@ -29,6 +30,11 @@ function App() {
         <Route path="/template-selection" element={
           <ProtectedRoute>
             <TemplateSelection />
+          </ProtectedRoute>
+        } />
+        <Route path="/recently-deleted" element={
+          <ProtectedRoute>
+            <RecentlyDeleted />
           </ProtectedRoute>
         } />
       </Routes>

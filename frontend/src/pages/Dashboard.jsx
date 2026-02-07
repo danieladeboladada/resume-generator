@@ -19,7 +19,7 @@ const Dashboard = () => {
     const fetchResumes = async () => {
       if (!user_id) return;
       try {
-        const response = await fetch(`/api/resume/getall/${user_id}`);
+        const response = await fetch(`/api/resume/getallactive/${user_id}`);
         const data = await response.json();
         if (data.success) {
           setUserResumes(
@@ -76,7 +76,7 @@ const Dashboard = () => {
   const handleDelete = async (resumeId) => {
     setDeleting(true);
     try {
-      const response = await fetch(`/api/resume/delete/${resumeId}`, { method: 'DELETE' });
+      const response = await fetch(`/api/resume/tempdelete/${resumeId}`, { method: 'PATCH' });
       const data = await response.json();
       if (data.success) {
         const deletedResume = userResumes.find((r) => r.id === resumeId);
@@ -116,35 +116,9 @@ const Dashboard = () => {
           <Button size="sm" onClick={() => handleDownload(item.id)} >
             <MdDownload />Download
           </Button>
-          <Dialog.Root isOpen={dialogOpenId === item.id} onClose={() => setDialogOpenId(null)} placement="center">
-            <Dialog.Trigger asChild>
-              <Button size="sm" bg="#e57373" color="white" _hover={{ bg: '#c62828' }} onClick={() => setDialogOpenId(item.id)}>
-                <MdDelete /> Delete
-              </Button>
-            </Dialog.Trigger>
-          <Portal>
-            <Dialog.Backdrop />
-            <Dialog.Positioner>
-              <Dialog.Content>
-                <Dialog.Header></Dialog.Header>
-                <Dialog.Body>
-                  <p>Are you sure you want to delete this resume? This action cannot be undone.</p>
-                </Dialog.Body>
-                <Dialog.Footer>
-                  <Dialog.ActionTrigger asChild>
-                    <Button variant="outline" onClick={() => setDialogOpenId(null)} disabled={deleting}>Cancel</Button>
-                  </Dialog.ActionTrigger>
-                  <Button size="sm" bg="#e57373" color="white" _hover={{ bg: '#c62828' }}  onClick={() => handleDelete(item.id)} isLoading={deleting}>
-                    Delete
-                  </Button>
-                </Dialog.Footer>
-                <Dialog.CloseTrigger asChild>
-                  <CloseButton size="sm" />
-                </Dialog.CloseTrigger>
-              </Dialog.Content>
-            </Dialog.Positioner>
-          </Portal>
-        </Dialog.Root>
+          <Button size="sm" bg="#e57373" color="white" _hover={{ bg: '#c62828' }} onClick={() => handleDelete(item.id)} isLoading={deleting}>
+            <MdDelete /> Delete
+          </Button>
       </Table.Cell>
     </Table.Row>
   ));
