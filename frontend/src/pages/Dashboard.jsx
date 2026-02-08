@@ -1,10 +1,11 @@
 import Navbar from '@/app-components/Navbar'
-import { Container, Heading, VStack, Table, Button, Portal, CloseButton, Dialog, Stack, Box, Float } from '@chakra-ui/react'
+import { Container, Heading, VStack, Table, Button, Stack, Box, Float } from '@chakra-ui/react'
 import { MdVisibility, MdDownload, MdDelete, MdAdd } from 'react-icons/md';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '@/store/userStore';
 import { toaster } from '../components/ui/toaster';
+import { handlePreview } from '../utils/ResumeUtil';
 
 const Dashboard = () => {
   const { getLoggedInUser } = useUserStore();
@@ -51,19 +52,6 @@ const Dashboard = () => {
     link.download = fileName;
     link.click();
     URL.revokeObjectURL(link.href);
-  };
-
-  // Preview handler: open PDF in new tab from base64 string
-  const handlePreview = (base64String) => {
-    const byteCharacters = atob(base64String);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
-    window.open(url, '_blank');
   };
 
   const handleDownload = (resumeId) => {

@@ -1,9 +1,9 @@
 import Navbar from '@/app-components/Navbar';
-import { Container, Heading, VStack, Table, Button, Portal, CloseButton, Dialog, Stack, Box, Float } from '@chakra-ui/react';
-import { MdVisibility, MdDownload, MdDelete } from 'react-icons/md';
+import { Container, Heading, VStack, Table, Button, Portal, CloseButton, Dialog } from '@chakra-ui/react';
+import { MdVisibility, MdDelete, MdRestore } from 'react-icons/md';
 import React, { useEffect, useState } from 'react';
 import { toaster } from '../components/ui/toaster';
-
+import { handlePreview } from '../utils/ResumeUtil';
 import { useUserStore } from '@/store/userStore';
 
 const RecentlyDeleted = () => {
@@ -104,14 +104,11 @@ const RecentlyDeleted = () => {
       <Table.Cell>{item.resume_name}</Table.Cell>
       <Table.Cell>{item.date_deleted}</Table.Cell>
       <Table.Cell style={{ display: 'flex', gap: '0.5rem' }}>
-        <Button size="sm" variant="outline">
+        <Button size="sm" variant="outline" onClick={() => handlePreview(item.resume_body)}>
           <MdVisibility /> Preview
         </Button>
-        <Button size="sm">
-          <MdDownload /> Download
-        </Button>
-        <Button size="sm" colorScheme="teal" onClick={() => restoreResume(item.id)} isLoading={restoring}>
-          Restore
+        <Button size="sm" onClick={() => restoreResume(item.id)} isLoading={restoring}>
+          <MdRestore /> Restore
         </Button>
         <Dialog.Root isOpen={dialogOpenId === item.id} onClose={() => setDialogOpenId(null)} placement="center">
           <Dialog.Trigger asChild>

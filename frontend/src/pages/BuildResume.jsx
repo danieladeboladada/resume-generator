@@ -1,4 +1,4 @@
-import getSampleResumeData from '../utils/ResumeUtil';
+import { getSampleResumeData } from '../utils/ResumeUtil';
 import Navbar from '@/app-components/Navbar'
 import {
   Container,

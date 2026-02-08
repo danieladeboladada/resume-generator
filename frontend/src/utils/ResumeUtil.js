@@ -1,5 +1,4 @@
-// Utility function to provide sample resume data for testing/demo purposes
-const getSampleResumeData = () => ({
+export const getSampleResumeData = () => ({
   fullName: 'John Doe',
   linkedinUrl: 'https://www.linkedin.com/in/johndoe',
   phoneNo: '(555) 123-4567',
@@ -70,4 +69,15 @@ const getSampleResumeData = () => ({
   }
 });
 
-export default getSampleResumeData;
+// Utility function to provide sample resume data for testing/demo purposes
+export const handlePreview = (base64String) => {
+  const byteCharacters = atob(base64String);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: 'application/pdf' });
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+};
