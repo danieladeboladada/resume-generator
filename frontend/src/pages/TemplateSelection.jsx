@@ -1,5 +1,4 @@
 import Navbar from '@/app-components/Navbar'
-import { Template1PDF, Template2PDF, Template3PDF } from '@/app-components/ResumePDF'
 import template1Image from '@/assets/template-1-sample.png'
 import template2Image from '@/assets/template-2-sample.png'
 import template3Image from '@/assets/template-3-sample.png'
@@ -18,10 +17,29 @@ import {
 } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { pdf } from '@react-pdf/renderer'
 import { toaster } from '../components/ui/toaster';
 import { useUserStore } from '@/store/userStore'
 import { MdVisibility, MdSave, MdDownload } from 'react-icons/md';
+
+let pdfModuleCache = null;
+
+const loadPdfModules = async () => {
+  if (pdfModuleCache) return pdfModuleCache;
+
+  const [{ pdf }, templates] = await Promise.all([
+    import('@react-pdf/renderer'),
+    import('@/app-components/ResumePDF'),
+  ]);
+
+  pdfModuleCache = {
+    pdf,
+    Template1PDF: templates.Template1PDF,
+    Template2PDF: templates.Template2PDF,
+    Template3PDF: templates.Template3PDF,
+  };
+
+  return pdfModuleCache;
+};
 
 const TemplateSelection = () => {
   const location = useLocation()
@@ -37,7 +55,9 @@ const TemplateSelection = () => {
     { id: 'template3', name: 'Template 3', description: 'Resume Template 3', src: template3Image },
   ]
 
-  const getTemplateComponent = (templateId, data) => {
+  const getTemplateComponent = (templateId, data, templates) => {
+    const { Template1PDF, Template2PDF, Template3PDF } = templates;
+
     switch (templateId) {
       case 'template1':
         return <Template1PDF resumeData={data} />
@@ -51,14 +71,16 @@ const TemplateSelection = () => {
   }
 
   const handlePreview = async () => {
-    const doc = getTemplateComponent(selectedTemplate, resumeData);
+    const { pdf, ...templates } = await loadPdfModules();
+    const doc = getTemplateComponent(selectedTemplate, resumeData, templates);
     const blob = await pdf(doc).toBlob();
     const url = URL.createObjectURL(blob);
     window.open(url, '_blank');
   };
 
     const handleDownloadPDF = async (data, fileName) => {
-      const doc = getTemplateComponent(selectedTemplate, data);
+      const { pdf, ...templates } = await loadPdfModules();
+      const doc = getTemplateComponent(selectedTemplate, data, templates);
       const blob = await pdf(doc).toBlob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -108,7 +130,8 @@ const TemplateSelection = () => {
   const handleSaveResume = async (templateId) => {
     setIsPDFSaving(true);
     try {
-        const MyDoc = getTemplateComponent(templateId, resumeData)
+        const { pdf, ...templates } = await loadPdfModules();
+        const MyDoc = getTemplateComponent(templateId, resumeData, templates)
         
         const blob = await pdf(MyDoc).toBlob()
 
