@@ -6,7 +6,6 @@ import { useUserStore } from '@/store/userStore';
  */
 export const authFetch = (url, options = {}) => {
     const token = useUserStore.getState().token;
-    console.log('[authFetch] token:', token ? `${token.slice(0, 20)}...` : 'NULL');
     return fetch(url, {
         ...options,
         headers: {
