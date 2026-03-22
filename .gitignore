@@ -17,6 +17,9 @@ dist-ssr
 # One-time migration scripts
 backend/scripts/
 
+# Local setup notes
+setup-steps.txt
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
