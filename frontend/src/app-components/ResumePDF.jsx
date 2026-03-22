@@ -1,6 +1,8 @@
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer'
 
-const styles = StyleSheet.create({
+// ─── Styles ────────────────────────────────────────────────────────────────
+
+const styles1 = StyleSheet.create({
     page: {
         padding: 40,
         fontFamily: 'Helvetica',
@@ -247,40 +249,338 @@ const styles3 = StyleSheet.create({
     },
 });
 
+const styles4 = StyleSheet.create({
+    page: {
+        padding: 0,
+        fontFamily: 'Helvetica',
+    },
+    header: {
+        backgroundColor: '#0F766E',
+        padding: 28,
+        paddingBottom: 22,
+    },
+    headerName: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: '#FFFFFF',
+        marginBottom: 8,
+    },
+    headerContact: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 0,
+    },
+    contactItem: {
+        fontSize: 10,
+        color: '#99F6E4',
+        marginRight: 16,
+        marginBottom: 2,
+    },
+    body: {
+        padding: 28,
+    },
+    section: {
+        marginBottom: 16,
+    },
+    sectionTitle: {
+        fontSize: 13,
+        fontWeight: 'bold',
+        color: '#F97316',
+        textTransform: 'uppercase',
+        letterSpacing: 1,
+        marginBottom: 8,
+        paddingBottom: 4,
+        borderBottom: '2px solid #F97316',
+    },
+    summaryText: {
+        fontSize: 11,
+        lineHeight: 1.5,
+        color: '#374151',
+    },
+    entryContainer: {
+        marginBottom: 12,
+        paddingLeft: 10,
+        borderLeft: '3px solid #0F766E',
+    },
+    entryTitle: {
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: '#111827',
+        marginBottom: 1,
+    },
+    entryDate: {
+        fontSize: 10,
+        color: '#F97316',
+        marginBottom: 4,
+    },
+    bullet: {
+        fontSize: 11,
+        marginBottom: 3,
+        marginLeft: 8,
+        lineHeight: 1.4,
+        color: '#4B5563',
+    },
+    eduItem: {
+        fontSize: 11,
+        marginBottom: 4,
+        color: '#374151',
+        lineHeight: 1.4,
+    },
+    skillsRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    skillChip: {
+        fontSize: 10,
+        backgroundColor: '#CCFBF1',
+        color: '#0F766E',
+        paddingHorizontal: 8,
+        paddingVertical: 3,
+        marginRight: 6,
+        marginBottom: 6,
+        borderRadius: 10,
+    },
+});
+
+const styles5 = StyleSheet.create({
+    page: {
+        padding: 0,
+        fontFamily: 'Helvetica',
+    },
+    container: {
+        flexDirection: 'row',
+        height: '100%',
+    },
+    main: {
+        width: '63%',
+        padding: 28,
+        backgroundColor: '#FFFFFF',
+    },
+    sidebar: {
+        width: '37%',
+        backgroundColor: '#1E3A5F',
+        padding: 22,
+    },
+    nameBlock: {
+        marginBottom: 18,
+        borderBottom: '3px solid #D97706',
+        paddingBottom: 14,
+    },
+    name: {
+        fontSize: 26,
+        fontWeight: 'bold',
+        color: '#111827',
+        marginBottom: 4,
+    },
+    mainSectionTitle: {
+        fontSize: 13,
+        fontWeight: 'bold',
+        color: '#1E3A5F',
+        textTransform: 'uppercase',
+        letterSpacing: 0.8,
+        marginBottom: 8,
+        paddingBottom: 4,
+        borderBottom: '2px solid #D97706',
+    },
+    mainSection: {
+        marginBottom: 16,
+    },
+    summaryText: {
+        fontSize: 11,
+        lineHeight: 1.5,
+        color: '#374151',
+    },
+    entryContainer: {
+        marginBottom: 11,
+    },
+    entryTitle: {
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: '#111827',
+    },
+    entryDate: {
+        fontSize: 10,
+        color: '#D97706',
+        marginBottom: 4,
+    },
+    bullet: {
+        fontSize: 11,
+        marginBottom: 3,
+        marginLeft: 8,
+        lineHeight: 1.4,
+        color: '#4B5563',
+    },
+    sidebarName: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#FFFFFF',
+        marginBottom: 6,
+    },
+    contactItem: {
+        fontSize: 10,
+        color: '#93C5FD',
+        marginBottom: 5,
+        lineHeight: 1.4,
+    },
+    sidebarSectionTitle: {
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: '#D97706',
+        textTransform: 'uppercase',
+        letterSpacing: 0.6,
+        marginBottom: 8,
+        marginTop: 16,
+        paddingBottom: 4,
+        borderBottom: '1px solid #2D5F8A',
+    },
+    sidebarItem: {
+        fontSize: 11,
+        color: '#E2E8F0',
+        marginBottom: 5,
+        lineHeight: 1.4,
+    },
+    skillDot: {
+        fontSize: 10,
+        color: '#BAE6FD',
+        marginBottom: 5,
+        lineHeight: 1.4,
+    },
+});
+
+const styles6 = StyleSheet.create({
+    page: {
+        padding: 0,
+        fontFamily: 'Helvetica',
+    },
+    header: {
+        backgroundColor: '#9F1239',
+        padding: 26,
+    },
+    headerName: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: '#FFFFFF',
+        marginBottom: 6,
+    },
+    headerContact: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    contactItem: {
+        fontSize: 10,
+        color: '#FECDD3',
+        marginRight: 14,
+        marginBottom: 2,
+    },
+    body: {
+        padding: 26,
+    },
+    section: {
+        marginBottom: 16,
+    },
+    sectionTitleWrap: {
+        backgroundColor: '#FFF1F2',
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        marginBottom: 10,
+        borderLeft: '4px solid #9F1239',
+    },
+    sectionTitle: {
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: '#9F1239',
+        textTransform: 'uppercase',
+        letterSpacing: 0.8,
+    },
+    summaryText: {
+        fontSize: 11,
+        lineHeight: 1.5,
+        color: '#374151',
+    },
+    entryHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 2,
+    },
+    entryTitle: {
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: '#1F2937',
+    },
+    entryDate: {
+        fontSize: 10,
+        color: '#6B7280',
+    },
+    entryContainer: {
+        marginBottom: 12,
+        paddingBottom: 10,
+        borderBottom: '1px solid #F3F4F6',
+    },
+    bullet: {
+        fontSize: 11,
+        marginBottom: 3,
+        marginLeft: 10,
+        lineHeight: 1.4,
+        color: '#4B5563',
+    },
+    eduItem: {
+        fontSize: 11,
+        marginBottom: 4,
+        color: '#374151',
+        lineHeight: 1.4,
+    },
+    skillsRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    skillBadge: {
+        fontSize: 10,
+        backgroundColor: '#FFE4E6',
+        color: '#9F1239',
+        paddingHorizontal: 9,
+        paddingVertical: 3,
+        marginRight: 6,
+        marginBottom: 6,
+        borderRadius: 3,
+    },
+});
+
+// ─── Templates ─────────────────────────────────────────────────────────────
+
 const Template1PDF = ({ resumeData }) => (
     <Document>
-        <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
-            <Text style={styles.title}>{resumeData.fullName}</Text>
-            <View style={styles.contactInfo}>
-            {resumeData.email && <Text style={styles.contactText}>{resumeData.email}</Text>}
-            {resumeData.phoneNo && <Text style={styles.contactText}>{resumeData.phoneNo}</Text>}
-            {resumeData.linkedinUrl && <Text style={styles.contactText}>{resumeData.linkedinUrl}</Text>}
+        <Page size="A4" style={styles1.page}>
+        <View style={styles1.section}>
+            <Text style={styles1.title}>{resumeData.fullName}</Text>
+            <View style={styles1.contactInfo}>
+            {resumeData.email && <Text style={styles1.contactText}>{resumeData.email}</Text>}
+            {resumeData.phoneNo && <Text style={styles1.contactText}>{resumeData.phoneNo}</Text>}
+            {resumeData.linkedinUrl && <Text style={styles1.contactText}>{resumeData.linkedinUrl}</Text>}
             </View>
         </View>
 
         {resumeData.summary.flag && resumeData.summary.value && (
-            <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Summary</Text>
-            <Text style={styles.text}>{resumeData.summary.value}</Text>
+            <View style={styles1.section}>
+            <Text style={styles1.sectionTitle}>Summary</Text>
+            <Text style={styles1.text}>{resumeData.summary.value}</Text>
             </View>
         )}
 
         {resumeData.experience.flag && resumeData.experience.values.length > 0 && (
-            <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Experience</Text>
+            <View style={styles1.section}>
+            <Text style={styles1.sectionTitle}>Experience</Text>
             {resumeData.experience.values.map((exp, idx) => (
-                <View key={idx} style={styles.entryContainer}>
-                <View style={styles.entryHeader}>
-                    <Text style={styles.entryTitle}>{exp.heading}</Text>
-                    <Text style={styles.entryDate}>
+                <View key={idx} style={styles1.entryContainer}>
+                <View style={styles1.entryHeader}>
+                    <Text style={styles1.entryTitle}>{exp.heading}</Text>
+                    <Text style={styles1.entryDate}>
                     {exp.from_month_year} {exp.to_month_year && `- ${exp.to_month_year}`}
                     </Text>
                 </View>
                 {exp.bullet_points.length > 0 && (
-                    <View style={styles.bulletList}>
+                    <View style={styles1.bulletList}>
                     {exp.bullet_points.map((bullet, bidx) => (
-                        <Text key={bidx} style={styles.bullet}>• {bullet}</Text>
+                        <Text key={bidx} style={styles1.bullet}>• {bullet}</Text>
                     ))}
                     </View>
                 )}
@@ -290,18 +590,18 @@ const Template1PDF = ({ resumeData }) => (
         )}
 
         {resumeData.education.flag && resumeData.education.values.length > 0 && (
-            <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Education</Text>
+            <View style={styles1.section}>
+            <Text style={styles1.sectionTitle}>Education</Text>
             {resumeData.education.values.map((edu, idx) => (
-                <Text key={idx} style={styles.text}>{edu}</Text>
+                <Text key={idx} style={styles1.text}>{edu}</Text>
             ))}
             </View>
         )}
 
         {resumeData.skills.flag && resumeData.skills.values.length > 0 && (
-            <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Skills</Text>
-            <Text style={styles.text}>{resumeData.skills.values.join(', ')}</Text>
+            <View style={styles1.section}>
+            <Text style={styles1.sectionTitle}>Skills</Text>
+            <Text style={styles1.text}>{resumeData.skills.values.join(', ')}</Text>
             </View>
         )}
         </Page>
@@ -391,7 +691,6 @@ const Template3PDF = ({ resumeData }) => (
                 <View style={styles3.twoColumn}>
                     {/* Main Content */}
                     <View style={styles3.mainColumn}>
-                        {/* Summary */}
                         {resumeData.summary.flag && resumeData.summary.value && (
                             <View style={styles3.section}>
                                 <Text style={styles3.sectionTitle}>Professional Summary</Text>
@@ -399,7 +698,6 @@ const Template3PDF = ({ resumeData }) => (
                             </View>
                         )}
 
-                        {/* Experience */}
                         {resumeData.experience.flag && resumeData.experience.values.length > 0 && (
                             <View style={styles3.section}>
                                 <Text style={styles3.sectionTitle}>Experience</Text>
@@ -424,7 +722,6 @@ const Template3PDF = ({ resumeData }) => (
 
                     {/* Sidebar */}
                     <View style={styles3.sideColumn}>
-                        {/* Education */}
                         {resumeData.education.flag && resumeData.education.values.length > 0 && (
                             <View style={styles3.section}>
                                 <Text style={styles3.sidebarTitle}>Education</Text>
@@ -434,7 +731,6 @@ const Template3PDF = ({ resumeData }) => (
                             </View>
                         )}
 
-                        {/* Skills */}
                         {resumeData.skills.flag && resumeData.skills.values.length > 0 && (
                             <View style={styles3.section}>
                                 <Text style={styles3.sidebarTitle}>Skills</Text>
@@ -452,4 +748,201 @@ const Template3PDF = ({ resumeData }) => (
     </Document>
 );
 
-export { Template1PDF, Template2PDF, Template3PDF }
+const Template4PDF = ({ resumeData }) => (
+    <Document>
+        <Page size="A4" style={styles4.page}>
+            <View style={styles4.header}>
+                <Text style={styles4.headerName}>{resumeData.fullName}</Text>
+                <View style={styles4.headerContact}>
+                    {resumeData.email && <Text style={styles4.contactItem}>{resumeData.email}</Text>}
+                    {resumeData.phoneNo && <Text style={styles4.contactItem}>{resumeData.phoneNo}</Text>}
+                    {resumeData.linkedinUrl && <Text style={styles4.contactItem}>{resumeData.linkedinUrl}</Text>}
+                </View>
+            </View>
+
+            <View style={styles4.body}>
+                {resumeData.summary.flag && resumeData.summary.value && (
+                    <View style={styles4.section}>
+                        <Text style={styles4.sectionTitle}>Summary</Text>
+                        <Text style={styles4.summaryText}>{resumeData.summary.value}</Text>
+                    </View>
+                )}
+
+                {resumeData.experience.flag && resumeData.experience.values.length > 0 && (
+                    <View style={styles4.section}>
+                        <Text style={styles4.sectionTitle}>Experience</Text>
+                        {resumeData.experience.values.map((exp, idx) => (
+                            <View key={idx} style={styles4.entryContainer}>
+                                <Text style={styles4.entryTitle}>{exp.heading}</Text>
+                                <Text style={styles4.entryDate}>
+                                    {exp.from_month_year}{exp.to_month_year && ` – ${exp.to_month_year}`}
+                                </Text>
+                                {exp.bullet_points.map((bullet, bidx) => (
+                                    <Text key={bidx} style={styles4.bullet}>• {bullet}</Text>
+                                ))}
+                            </View>
+                        ))}
+                    </View>
+                )}
+
+                {resumeData.education.flag && resumeData.education.values.length > 0 && (
+                    <View style={styles4.section}>
+                        <Text style={styles4.sectionTitle}>Education</Text>
+                        {resumeData.education.values.map((edu, idx) => (
+                            <Text key={idx} style={styles4.eduItem}>{edu}</Text>
+                        ))}
+                    </View>
+                )}
+
+                {resumeData.skills.flag && resumeData.skills.values.length > 0 && (
+                    <View style={styles4.section}>
+                        <Text style={styles4.sectionTitle}>Skills</Text>
+                        <View style={styles4.skillsRow}>
+                            {resumeData.skills.values.map((skill, idx) => (
+                                <Text key={idx} style={styles4.skillChip}>{skill}</Text>
+                            ))}
+                        </View>
+                    </View>
+                )}
+            </View>
+        </Page>
+    </Document>
+);
+
+const Template5PDF = ({ resumeData }) => (
+    <Document>
+        <Page size="A4" style={styles5.page}>
+            <View style={styles5.container}>
+                {/* Main content */}
+                <View style={styles5.main}>
+                    <View style={styles5.nameBlock}>
+                        <Text style={styles5.name}>{resumeData.fullName}</Text>
+                    </View>
+
+                    {resumeData.summary.flag && resumeData.summary.value && (
+                        <View style={styles5.mainSection}>
+                            <Text style={styles5.mainSectionTitle}>Profile</Text>
+                            <Text style={styles5.summaryText}>{resumeData.summary.value}</Text>
+                        </View>
+                    )}
+
+                    {resumeData.experience.flag && resumeData.experience.values.length > 0 && (
+                        <View style={styles5.mainSection}>
+                            <Text style={styles5.mainSectionTitle}>Experience</Text>
+                            {resumeData.experience.values.map((exp, idx) => (
+                                <View key={idx} style={styles5.entryContainer}>
+                                    <Text style={styles5.entryTitle}>{exp.heading}</Text>
+                                    <Text style={styles5.entryDate}>
+                                        {exp.from_month_year}{exp.to_month_year && ` – ${exp.to_month_year}`}
+                                    </Text>
+                                    {exp.bullet_points.map((bullet, bidx) => (
+                                        <Text key={bidx} style={styles5.bullet}>• {bullet}</Text>
+                                    ))}
+                                </View>
+                            ))}
+                        </View>
+                    )}
+                </View>
+
+                {/* Sidebar */}
+                <View style={styles5.sidebar}>
+                    <Text style={styles5.sidebarName}>{resumeData.fullName}</Text>
+                    {resumeData.email && <Text style={styles5.contactItem}>{resumeData.email}</Text>}
+                    {resumeData.phoneNo && <Text style={styles5.contactItem}>{resumeData.phoneNo}</Text>}
+                    {resumeData.linkedinUrl && <Text style={styles5.contactItem}>{resumeData.linkedinUrl}</Text>}
+
+                    {resumeData.education.flag && resumeData.education.values.length > 0 && (
+                        <View>
+                            <Text style={styles5.sidebarSectionTitle}>Education</Text>
+                            {resumeData.education.values.map((edu, idx) => (
+                                <Text key={idx} style={styles5.sidebarItem}>{edu}</Text>
+                            ))}
+                        </View>
+                    )}
+
+                    {resumeData.skills.flag && resumeData.skills.values.length > 0 && (
+                        <View>
+                            <Text style={styles5.sidebarSectionTitle}>Skills</Text>
+                            {resumeData.skills.values.map((skill, idx) => (
+                                <Text key={idx} style={styles5.skillDot}>› {skill}</Text>
+                            ))}
+                        </View>
+                    )}
+                </View>
+            </View>
+        </Page>
+    </Document>
+);
+
+const Template6PDF = ({ resumeData }) => (
+    <Document>
+        <Page size="A4" style={styles6.page}>
+            <View style={styles6.header}>
+                <Text style={styles6.headerName}>{resumeData.fullName}</Text>
+                <View style={styles6.headerContact}>
+                    {resumeData.email && <Text style={styles6.contactItem}>{resumeData.email}</Text>}
+                    {resumeData.phoneNo && <Text style={styles6.contactItem}>{resumeData.phoneNo}</Text>}
+                    {resumeData.linkedinUrl && <Text style={styles6.contactItem}>{resumeData.linkedinUrl}</Text>}
+                </View>
+            </View>
+
+            <View style={styles6.body}>
+                {resumeData.summary.flag && resumeData.summary.value && (
+                    <View style={styles6.section}>
+                        <View style={styles6.sectionTitleWrap}>
+                            <Text style={styles6.sectionTitle}>Summary</Text>
+                        </View>
+                        <Text style={styles6.summaryText}>{resumeData.summary.value}</Text>
+                    </View>
+                )}
+
+                {resumeData.experience.flag && resumeData.experience.values.length > 0 && (
+                    <View style={styles6.section}>
+                        <View style={styles6.sectionTitleWrap}>
+                            <Text style={styles6.sectionTitle}>Experience</Text>
+                        </View>
+                        {resumeData.experience.values.map((exp, idx) => (
+                            <View key={idx} style={styles6.entryContainer}>
+                                <View style={styles6.entryHeader}>
+                                    <Text style={styles6.entryTitle}>{exp.heading}</Text>
+                                    <Text style={styles6.entryDate}>
+                                        {exp.from_month_year}{exp.to_month_year && ` – ${exp.to_month_year}`}
+                                    </Text>
+                                </View>
+                                {exp.bullet_points.map((bullet, bidx) => (
+                                    <Text key={bidx} style={styles6.bullet}>• {bullet}</Text>
+                                ))}
+                            </View>
+                        ))}
+                    </View>
+                )}
+
+                {resumeData.education.flag && resumeData.education.values.length > 0 && (
+                    <View style={styles6.section}>
+                        <View style={styles6.sectionTitleWrap}>
+                            <Text style={styles6.sectionTitle}>Education</Text>
+                        </View>
+                        {resumeData.education.values.map((edu, idx) => (
+                            <Text key={idx} style={styles6.eduItem}>{edu}</Text>
+                        ))}
+                    </View>
+                )}
+
+                {resumeData.skills.flag && resumeData.skills.values.length > 0 && (
+                    <View style={styles6.section}>
+                        <View style={styles6.sectionTitleWrap}>
+                            <Text style={styles6.sectionTitle}>Skills</Text>
+                        </View>
+                        <View style={styles6.skillsRow}>
+                            {resumeData.skills.values.map((skill, idx) => (
+                                <Text key={idx} style={styles6.skillBadge}>{skill}</Text>
+                            ))}
+                        </View>
+                    </View>
+                )}
+            </View>
+        </Page>
+    </Document>
+);
+
+export { Template1PDF, Template2PDF, Template3PDF, Template4PDF, Template5PDF, Template6PDF }

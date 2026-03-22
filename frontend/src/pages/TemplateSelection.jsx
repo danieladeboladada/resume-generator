@@ -2,6 +2,9 @@ import Navbar from '@/app-components/Navbar'
 import template1Image from '@/assets/template-1-sample.png'
 import template2Image from '@/assets/template-2-sample.png'
 import template3Image from '@/assets/template-3-sample.png'
+import template4Image from '@/assets/template-4-sample.png'
+import template5Image from '@/assets/template-5-sample.png'
+import template6Image from '@/assets/template-6-sample.png'
 import {
   Container,
   Heading,
@@ -37,6 +40,9 @@ const loadPdfModules = async () => {
     Template1PDF: templates.Template1PDF,
     Template2PDF: templates.Template2PDF,
     Template3PDF: templates.Template3PDF,
+    Template4PDF: templates.Template4PDF,
+    Template5PDF: templates.Template5PDF,
+    Template6PDF: templates.Template6PDF,
   };
 
   return pdfModuleCache;
@@ -51,13 +57,16 @@ const TemplateSelection = () => {
   const [isPDFSaving, setIsPDFSaving] = useState(false);
 
   const templates = [
-    { id: 'template1', name: 'Template 1', description: 'Resume Template 1', src: template1Image },
-    { id: 'template2', name: 'Template 2', description: 'Resume Template 2', src: template2Image },
-    { id: 'template3', name: 'Template 3', description: 'Resume Template 3', src: template3Image },
+    { id: 'template1', name: 'Classic', description: 'Clean single-column layout', src: template1Image },
+    { id: 'template2', name: 'Emerald Sidebar', description: 'Mint green left sidebar', src: template2Image },
+    { id: 'template3', name: 'Purple Pro', description: 'Bold purple header, two-column body', src: template3Image },
+    { id: 'template4', name: 'Teal & Coral', description: 'Teal header with coral accents', src: template4Image },
+    { id: 'template5', name: 'Navy & Gold', description: 'Dark navy right sidebar with gold accents', src: template5Image },
+    { id: 'template6', name: 'Rose & Slate', description: 'Deep rose header with highlighted sections', src: template6Image },
   ]
 
   const getTemplateComponent = (templateId, data, templates) => {
-    const { Template1PDF, Template2PDF, Template3PDF } = templates;
+    const { Template1PDF, Template2PDF, Template3PDF, Template4PDF, Template5PDF, Template6PDF } = templates;
 
     switch (templateId) {
       case 'template1':
@@ -66,6 +75,12 @@ const TemplateSelection = () => {
         return <Template2PDF resumeData={data} />
       case 'template3':
         return <Template3PDF resumeData={data} />
+      case 'template4':
+        return <Template4PDF resumeData={data} />
+      case 'template5':
+        return <Template5PDF resumeData={data} />
+      case 'template6':
+        return <Template6PDF resumeData={data} />
       default:
         return <Template1PDF resumeData={data} />
     }
