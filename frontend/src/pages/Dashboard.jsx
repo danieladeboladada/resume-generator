@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '@/store/userStore';
 import { toaster } from '../components/ui/toaster';
 import { handlePreview } from '../utils/ResumeUtil';
+import { authFetch } from '../utils/api';
 
 const Dashboard = () => {
   const { getLoggedInUser } = useUserStore();
@@ -20,7 +21,7 @@ const Dashboard = () => {
     const fetchResumes = async () => {
       if (!user_id) return;
       try {
-        const response = await fetch(`/api/resume/getallactive/${user_id}`);
+        const response = await authFetch(`/api/resume/getallactive/${user_id}`);
         const data = await response.json();
         if (data.success) {
           setUserResumes(
@@ -64,7 +65,7 @@ const Dashboard = () => {
   const handleDelete = async (resumeId) => {
     setDeleting(true);
     try {
-      const response = await fetch(`/api/resume/tempdelete/${resumeId}`, { method: 'PATCH' });
+      const response = await authFetch(`/api/resume/tempdelete/${resumeId}`, { method: 'PATCH' });
       const data = await response.json();
       if (data.success) {
         const deletedResume = userResumes.find((r) => r.id === resumeId);

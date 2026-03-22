@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const LoginPage = () => {
   const [login, setLogin] = useState({user_name: '', pass_word: ''});
   const navigate = useNavigate();
-  const { setLoggedInUser, setLoggedInUserId } = useUserStore();
+  const { setLoggedInUser, setLoggedInUserId, setToken } = useUserStore();
 
   const authLogin = async () => {
     try {
@@ -26,6 +26,7 @@ const LoginPage = () => {
           type: 'success',
         });
         setLoggedInUserId(response.user_id);
+        setToken(response.token);
         setLoggedInUser(login);
         setTimeout(() => {
           navigate('/dashboard');

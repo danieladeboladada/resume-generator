@@ -10,6 +10,10 @@ export const saveResume = async (req, res) => {
         return res.status(400).json({ success: false, message: 'User ID, resume name, and resume body are required' });
     }
 
+    if (user_id !== req.user.user_id) {
+        return res.status(403).json({ success: false, message: 'Forbidden' });
+    }
+
     const newResume = new Resume({ user_id, resume_name, resume_body });
 
     try {
@@ -28,6 +32,10 @@ export const getAllActiveResumesByUserId = async (req, res) => {
 
     if (!user_id) {
         return res.status(400).json({ success: false, message: 'User ID is required' });
+    }
+
+    if (user_id !== req.user.user_id) {
+        return res.status(403).json({ success: false, message: 'Forbidden' });
     }
 
     try {
@@ -52,6 +60,10 @@ export const getAllDeletedResumesByUserId = async (req, res) => {
         return res.status(400).json({ success: false, message: 'User ID is required' });
     }
 
+    if (user_id !== req.user.user_id) {
+        return res.status(403).json({ success: false, message: 'Forbidden' });
+    }
+
     try {
         const resumes = await Resume.find({ user_id: user_id, status: RESUME_DELETED });
         if (resumes.length === 0) {
@@ -71,10 +83,14 @@ export const deleteResumeById = async (req, res) => {
         return res.status(400).json({ success: false, message: 'Resume ID is required' });
     }
     try {
-        const deleted = await Resume.findByIdAndDelete(resume_id);
-        if (!deleted) {
+        const resume = await Resume.findById(resume_id);
+        if (!resume) {
             return res.status(404).json({ success: false, message: 'Resume not found' });
         }
+        if (resume.user_id.toString() !== req.user.user_id) {
+            return res.status(403).json({ success: false, message: 'Forbidden' });
+        }
+        await Resume.findByIdAndDelete(resume_id);
         res.status(200).json({ success: true, message: 'Resume deleted successfully' });
     } catch (error) {
         console.log('Error in delete resume:', error.message);
@@ -89,14 +105,18 @@ export const tempDeleteResumeById = async (req, res) => {
         return res.status(400).json({ success: false, message: 'Resume ID is required' });
     }
     try {
+        const resume = await Resume.findById(resume_id);
+        if (!resume) {
+            return res.status(404).json({ success: false, message: 'Resume not found' });
+        }
+        if (resume.user_id.toString() !== req.user.user_id) {
+            return res.status(403).json({ success: false, message: 'Forbidden' });
+        }
         const updated = await Resume.findByIdAndUpdate(
             resume_id,
             { status: RESUME_DELETED, deleted_at: new Date() },
             { new: true }
         );
-        if (!updated) {
-            return res.status(404).json({ success: false, message: 'Resume not found' });
-        }
         res.status(200).json({ success: true, message: 'Resume marked as deleted', data: updated });
     } catch (error) {
         console.log('Error in temp delete resume:', error.message);
@@ -111,14 +131,18 @@ export const restoreResumeById = async (req, res) => {
         return res.status(400).json({ success: false, message: 'Resume ID is required' });
     }
     try {
+        const resume = await Resume.findById(resume_id);
+        if (!resume) {
+            return res.status(404).json({ success: false, message: 'Resume not found' });
+        }
+        if (resume.user_id.toString() !== req.user.user_id) {
+            return res.status(403).json({ success: false, message: 'Forbidden' });
+        }
         const updated = await Resume.findByIdAndUpdate(
             resume_id,
             { status: RESUME_ACTIVE, deleted_at: null },
             { new: true }
         );
-        if (!updated) {
-            return res.status(404).json({ success: false, message: 'Resume not found' });
-        }
         res.status(200).json({ success: true, message: 'Resume restored', data: updated });
     } catch (error) {
         console.log('Error in restore resume:', error.message);

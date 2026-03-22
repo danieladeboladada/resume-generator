@@ -1,5 +1,8 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import Credential from '../models/credentials.model.js';
+
+const signToken = (user_id) => jwt.sign({ user_id: user_id.toString() }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
 //to add new login credentials
 export const createLogin = async (req, res) => {
@@ -14,7 +17,8 @@ export const createLogin = async (req, res) => {
         const hashedPassword = await bcrypt.hash(login_credentials.pass_word, 10);
         const newCredential = new Credential({ user_name: login_credentials.user_name, pass_word: hashedPassword });
         await newCredential.save();
-        res.status(201).json({success: true, data: newCredential}); //201 means successful creation
+        const token = signToken(newCredential._id);
+        res.status(201).json({success: true, data: newCredential, token}); //201 means successful creation
     } catch (error) {
         console.log("Error in create login credential:", error.message);
         res.status(500).json({success: false, message: "Server Error"});
@@ -41,7 +45,8 @@ export const verifyLogin = async (req, res) => {
             return res.status(401).json({success: false, message: "Invalid username or password"});
         }
 
-        res.status(200).json({success: true, user_id: foundLogin._id, message: "Login found!"});
+        const token = signToken(foundLogin._id);
+        res.status(200).json({success: true, user_id: foundLogin._id, token, message: "Login found!"});
     } catch (error) {
         res.status(500).json({success: false, message: "Server error"});
     }

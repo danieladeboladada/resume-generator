@@ -6,7 +6,7 @@ import { useUserStore } from '@/store/userStore';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { setLoggedInUser, setLoggedInUserId, getLoggedInUser } = useUserStore();
+  const { setLoggedInUser, setLoggedInUserId, setToken, getLoggedInUser } = useUserStore();
   const loggedInUser = getLoggedInUser ? getLoggedInUser() : null;
   const [logoutDialogOpen, setLogoutDialogOpen] = React.useState(false);
   const [loggingOut, setLoggingOut] = React.useState(false);
@@ -16,6 +16,7 @@ const Navbar = () => {
     setTimeout(() => {
       setLoggedInUserId(null);
       setLoggedInUser(null);
+      setToken(null);
       setLoggingOut(false);
       setLogoutDialogOpen(false);
       navigate('/');

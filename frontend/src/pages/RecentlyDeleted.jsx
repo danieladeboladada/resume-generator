@@ -4,6 +4,7 @@ import { MdVisibility, MdDelete, MdRestore } from 'react-icons/md';
 import React, { useEffect, useState } from 'react';
 import { toaster } from '../components/ui/toaster';
 import { handlePreview } from '../utils/ResumeUtil';
+import { authFetch } from '../utils/api';
 import { useUserStore } from '@/store/userStore';
 
 const RecentlyDeleted = () => {
@@ -15,7 +16,7 @@ const RecentlyDeleted = () => {
   const handlePermanentDelete = async (resumeId) => {
     setDeleting(true);
     try {
-      const response = await fetch(`/api/resume/delete/${resumeId}`, { method: 'DELETE' });
+      const response = await authFetch(`/api/resume/delete/${resumeId}`, { method: 'DELETE' });
       const data = await response.json();
       if (data.success) {
         const deletedResume = deletedResumes.find((r) => r.id === resumeId);
@@ -47,7 +48,7 @@ const RecentlyDeleted = () => {
     const fetchDeletedResumes = async () => {
       if (!user_id) return;
       try {
-        const response = await fetch(`/api/resume/getalldeleted/${user_id}`);
+        const response = await authFetch(`/api/resume/getalldeleted/${user_id}`);
         const data = await response.json();
         if (data.success) {
           setDeletedResumes(
@@ -71,7 +72,7 @@ const RecentlyDeleted = () => {
   const restoreResume = async (resumeId) => {
     setRestoring(true);
     try {
-      const response = await fetch(`/api/resume/restore/${resumeId}`, { method: 'PATCH' });
+      const response = await authFetch(`/api/resume/restore/${resumeId}`, { method: 'PATCH' });
       const data = await response.json();
       if (data.success) {
         const restoredResume = deletedResumes.find((r) => r.id === resumeId);

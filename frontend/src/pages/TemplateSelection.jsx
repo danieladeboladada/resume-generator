@@ -20,6 +20,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { toaster } from '../components/ui/toaster';
 import { useUserStore } from '@/store/userStore'
 import { MdVisibility, MdSave, MdDownload } from 'react-icons/md';
+import { authFetch } from '../utils/api';
 
 let pdfModuleCache = null;
 
@@ -94,7 +95,7 @@ const TemplateSelection = () => {
 
   const savePdfToDatabase = async (base64data, userId, resName) => {
     try {
-      const response = await fetch('/api/resume/save', {
+      const response = await authFetch('/api/resume/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
