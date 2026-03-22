@@ -14,6 +14,9 @@ dist-ssr
 
 .env
 
+# One-time migration scripts
+backend/scripts/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
